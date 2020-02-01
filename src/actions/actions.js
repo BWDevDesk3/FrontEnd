@@ -48,7 +48,7 @@ export const testing = () =>
 // User Signup Method
 export const userSignUp = user => 
 {
-    axios.post(API + 'signup', user)
+    axios.post(API + 'auth/register', user)
         .then((res) => {
             localStorage.setItem('token', res.data.token);
         })
@@ -63,7 +63,7 @@ export const userSignUp = user =>
 // Signin Method for User's
 export const userSignIn = user => 
 {
-    axios.post(API + 'login', user)
+    axios.post(API + 'auth/login', user)
         .then((res) => 
         {
             localStorage.setItem('token', res.data.token);

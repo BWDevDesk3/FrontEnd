@@ -7,7 +7,7 @@ import {PrivateRoute} from '../utils/PrivateRoute';
 // Actions
 import {testing} from '../actions/actions';
 // Components
-
+import Landing from './Landing';
 const App = props => 
 {
 
@@ -18,10 +18,13 @@ const App = props =>
   }, [])
 
   return (
-    <div className="App">
-      <h1>Testing!</h1>
-      <button onClick={ e => props.testing()}>Redux Testing</button>
+    <div style={{backgroundColor: '#030405'}}>
+      <Landing/>
     </div>
+    // <div className="App">
+    //   {/* <h1>Testing!</h1>
+    //   <button onClick={ e => props.testing()}>Redux Testing</button> */}
+    // </div>
   );
 };
 
