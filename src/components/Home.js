@@ -14,6 +14,8 @@ const { Header, Content, Footer } = Layout;
 
 const Home = props => {
 
+    let page = props.page;
+
     const fetch = () => {
         props.fetchTickets();
     }
@@ -33,7 +35,7 @@ const Home = props => {
                 <SideMenu signOut={handleSignOut}/>
                 <Layout>
                     <Header style={{ background: '#fff', padding: 0 }}> 
-                        <h4>{'Welcome'}</h4>
+                        <h4>{'Welcome ' + page}</h4>
                     </Header>
                     <Content style={{ margin: '0 16px' }}>
 
