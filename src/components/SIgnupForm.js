@@ -1,4 +1,8 @@
 import React from 'react';
+// Redux Connect
+import {connect} from 'react-redux';
+// Actions
+import {userSignUp, userSignIn} from '../actions/actions';
 // Any Design
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 
@@ -6,10 +10,15 @@ const SignUp = props => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        this.props.form.validateFields((err, values) => {
+        props.form.validateFields((err, values) => {
           if (!err) {
             console.log('Received values of form: ', values);
           }
+          let user = {
+            username: values.username,
+            password: values.username
+          };
+          props.userSignUp(user);
         });
       };
 
@@ -66,8 +75,15 @@ const SignUp = props => {
         </Form.Item>
       </Form>
     )
-}
+};
+
+const mapStateToProps = state => 
+{
+  return {
+    user: state.user
+  };
+};
 
 const WrappedNormalSignupForm = Form.create({ name: 'normal_login' })(SignUp);
 
-export default WrappedNormalSignupForm
+export default connect(mapStateToProps, {userSignUp, userSignIn})(WrappedNormalSignupForm)

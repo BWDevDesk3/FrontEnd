@@ -33,7 +33,7 @@ export const ASSIGNING_TICKET = "ASSIGNING_TICKET";
 export const RESOLVING_TICKET = "RESOLVING_TICKET";
  
 // Action Const's
-const API = 'https://localhost:5000/api/';
+const API = 'https://devdeskdb.herokuapp.com/api/';
 
 // Testing Method
 export const testing = () => 
@@ -48,8 +48,9 @@ export const testing = () =>
 // User Signup Method
 export const userSignUp = user => 
 {
-    axios.post(API + 'auth/register', user)
+    axios.post(API + 'auth/students/register', user)
         .then((res) => {
+            console.log(res);
             localStorage.setItem('token', res.data.token);
         })
         .catch((err) => {
@@ -63,7 +64,7 @@ export const userSignUp = user =>
 // Signin Method for User's
 export const userSignIn = user => 
 {
-    axios.post(API + 'auth/login', user)
+    axios.post(API + 'auth/students/login', user)
         .then((res) => 
         {
             localStorage.setItem('token', res.data.token);
@@ -125,7 +126,7 @@ export const adminSignOut = () =>
 // Fetching of tickets
 export const fetchTickets = () => 
 {
-    const promise = axiosWithAuth.get(API + 'tickets');
+    const promise = axiosWithAuth.get(API + 'requests');
 
     return dispatch => {
         dispatch({ type: FETCHING_TICKETS});
@@ -143,7 +144,7 @@ export const fetchTickets = () =>
 
 // Adding of ticket
 export const addTicket = ticket => {
-    const promise = axiosWithAuth.post(API + 'addTicket', ticket);
+    const promise = axiosWithAuth.post(API + 'requests', ticket);
 
     return dispatch => {
         dispatch({type: ADDING_TICKET});
@@ -161,7 +162,7 @@ export const addTicket = ticket => {
 
 // Assigning of ticket
 export const assignTicket = ticket=> {
-    const promise = axiosWithAuth.put(API + 'ticket', ticket);
+    const promise = axiosWithAuth.put(API + 'requests/' + ticket.id, ticket);
 
     return dispatch => {
         dispatch({type: ASSIGNING_TICKET});
@@ -179,7 +180,7 @@ export const assignTicket = ticket=> {
 
 // Resolving of a ticker
 export const resolveTicket = ticket => {
-    const promise = axiosWithAuth.put(API + 'resolveTicket', ticket);
+    const promise = axiosWithAuth.put(API + 'requests/' + ticket.id, ticket);
 
     return dispatch => {
         dispatch({type: RESOLVING_TICKET});
