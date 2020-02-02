@@ -19,12 +19,10 @@ const App = props =>
 
   return (
     <div style={{backgroundColor: '#030405'}}>
-      <Landing/>
+      <Route exact path="/" render={props => <Landing {...props}/>}></Route>
+      <Route exact path="/login" render={props => <Landing {...props} login={true}/>}></Route>
+      <Route exact path="/signup" render={props => <Landing {...props} login={false}/>}></Route>
     </div>
-    // <div className="App">
-    //   {/* <h1>Testing!</h1>
-    //   <button onClick={ e => props.testing()}>Redux Testing</button> */}
-    // </div>
   );
 };
 

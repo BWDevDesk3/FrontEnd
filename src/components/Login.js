@@ -18,8 +18,6 @@ const Login = props => {
             username: values.username,
             password: values.password
           };
-          console.log(user);
-          console.log(values);
           props.userSignIn(user);
         });
       };

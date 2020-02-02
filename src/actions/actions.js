@@ -50,7 +50,6 @@ export const userSignUp = user =>
 {
     axios.post(API + 'auth/students/register', user)
         .then((res) => {
-            console.log(res);
             // localStorage.setItem('token', res.data.token);
             userSignIn(user);
         })
@@ -68,7 +67,6 @@ export const userSignIn = user =>
     axios.post(API + 'auth/students/login', user)
         .then((res) => 
         {
-            console.log(res)
             localStorage.setItem('token', res.data.token);
         })
         .catch((err) =>
