@@ -38,7 +38,6 @@ const API = 'https://devdeskdb.herokuapp.com/api/';
 // Testing Method
 export const homeLoaded = () => 
 {
-    console.log('testing action fired')
     return {
         type: HOME_LOADED,
         payload: localStorage.getItem('token')

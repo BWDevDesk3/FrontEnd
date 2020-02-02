@@ -68,9 +68,9 @@ const SignUp = props => {
             valuePropName: 'checked',
             initialValue: true,
           })(<Checkbox style={{color: '#FFF'}}>Remember me</Checkbox>)}
-          <a className="login-form-forgot" href="">
+          <Link to={'/login'}>
             Request Help
-          </a>
+          </Link>
           <Button type="primary" htmlType="submit" className="login-form-button" size="large">
             Sign Up
           </Button>

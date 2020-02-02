@@ -12,9 +12,13 @@ import Home from './Home';
 const App = props => 
 {
 
+  const loaded = () => {
+    props.homeLoaded();
+  }
+
   useEffect(() => 
   {
-    props.homeLoaded();
+    loaded();
   }, [])
 
   const historyPush = location => {

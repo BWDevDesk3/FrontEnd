@@ -8,15 +8,19 @@ import {fetchTickets} from '../actions/actions';
 
 const Home = props => {
 
-    useEffect(() => {
+    const fetch = () => {
         props.fetchTickets();
+    }
+
+    useEffect(() => {
+        fetch();
     }, [])
 
     return (
         <div style={{backgroundColor: '#333', minHeight: '100vh', textAlign: 'center'}}>
             <h1>This is a test</h1>
             {props.tickets.map((ticket, index) => {
-                return <h1>{ticket.id}</h1>
+                return <h1 key={index}>{ticket.id}</h1>
             })}
             <Link to={'/'} onClick={e => localStorage.setItem('token', '')}>Logout</Link>
         </div>

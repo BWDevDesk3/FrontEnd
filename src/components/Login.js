@@ -21,10 +21,11 @@ const Login = props => {
             password: values.password
           };
           props.userSignIn(user);
-          setInterval(() => {
-            console.log('Fired')
+          let interval = setInterval(() => {
             props.push('/home');
-          }, 800)
+          }, 1200)
+
+          return () => clearInterval(interval);
         });
       };
 
@@ -60,9 +61,9 @@ const Login = props => {
             valuePropName: 'checked',
             initialValue: true,
           })(<Checkbox style={{color: '#FFF'}}>Remember me</Checkbox>)}
-          <a className="login-form-forgot" href="">
+          <Link to={'/'}>
             Forgot Password?
-          </a>
+          </Link>
           <Button type="primary" htmlType="submit" className="login-form-button" size="large">
             Login
           </Button>
