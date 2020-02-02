@@ -28,7 +28,7 @@ const SignUp = props => {
       const { getFieldDecorator } = props.form;
 
     return (
-        <Form onSubmit={handleSubmit} className="login-form">
+        <Form onSubmit={e => handleSubmit()} className="login-form">
             <Form.Item>
           {getFieldDecorator('email', {
             rules: [{ required: true, message: 'Please input your email!' }],
@@ -68,13 +68,13 @@ const SignUp = props => {
             valuePropName: 'checked',
             initialValue: true,
           })(<Checkbox style={{color: '#FFF'}}>Remember me</Checkbox>)}
-          <Link to={'/login'}>
+          <Link to={'/'}>
             Request Help
           </Link>
           <Button type="primary" htmlType="submit" className="login-form-button" size="large">
             Sign Up
           </Button>
-          Or <Link to={'/login'}>Already have an account?</Link>
+          Or <Link to={'/'}>Already have an account?</Link>
         </Form.Item>
       </Form>
     )

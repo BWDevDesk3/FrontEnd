@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // Redux Connect
 import {connect} from 'react-redux';
 // Router Link
@@ -10,6 +10,8 @@ import { Form, Icon, Input, Button, Checkbox } from 'antd';
 
 const Login = props => {
 
+  let timer;
+
     const handleSubmit = e => {
         e.preventDefault();
         props.form.validateFields((err, values) => {
@@ -20,16 +22,29 @@ const Login = props => {
             username: values.username,
             password: values.password
           };
-          props.userSignIn(user);
-          let interval = setInterval(() => {
-            props.push('/home');
-          }, 1200)
-
-          return () => clearInterval(interval);
+          signIn(user)
+            .then(() => {props.push('/home')})
         });
       };
 
+      // Hacky promise function to delay sending user to home route
+      const signIn = info => {
+        return new Promise((resolve, reject) => {
+          let login = props.userSignIn(info);
+            setTimeout(function(){
+              resolve(true);
+            }, 1000)
+        })
+      }
+
       const { getFieldDecorator } = props.form;
+
+      const setTimer = () => {
+        setInterval(() => {
+          console.log('Fired');
+          props.push('/home');
+        }, 1200);
+      };
 
     return (
         <Form onSubmit={handleSubmit} className="login-form">
@@ -76,7 +91,7 @@ const Login = props => {
 const mapStateToProps = state => 
 {
   return {
-    
+    user: state.user
   };
 };
 

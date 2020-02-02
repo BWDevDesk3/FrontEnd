@@ -12,25 +12,14 @@ import Home from './Home';
 const App = props => 
 {
 
-  const loaded = () => {
-    props.homeLoaded();
-  }
-
-  useEffect(() => 
-  {
-    loaded();
-  }, [])
-
   const historyPush = location => {
     props.history.push(location);
   }
 
   return (
     <div style={{backgroundColor: '#030405'}}>
-      <Route exact path="/" render={props => <Landing {...props} push={historyPush}/>}></Route>
-      <Route exact path="/login" render={props => <Landing {...props} login={true} push={historyPush}/>}></Route>
+      <Route exact path="/" render={props => <Landing {...props} push={historyPush} login={true}/>}></Route>
       <Route exact path="/signup" render={props => <Landing {...props} login={false} push={historyPush}/>}></Route>
-      {/* Private route for rendering the application */}
       <PrivateRoute exact path="/home" component={Home} data={{...props}}/>
     </div>
   );
