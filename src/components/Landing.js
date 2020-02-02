@@ -3,14 +3,12 @@ import React from 'react';
 import {Row, Col} from 'antd';
 // Importing image
 import laptop from '../assets/laptop.jpg';
-import SignUp from './SignupForm';
+import SignUp from './Signup';
 import Login from './Login';
 
 const Landing = props => {
 
     const login = props.login;
-    const token = localStorage.getItem('token');
-    console.log(token);
 
     return (
         <>
@@ -29,7 +27,7 @@ const Landing = props => {
                     <h4 style={{color: '#F1F1FB'}}>Join your fellow <br/> developers from around the world today!</h4>
                     <p style={{color: '#F1F1FB'}}>Master the languages of the web: HTML, CSS, and JavaScript! This app will connect you to those who <br/> will help you succeed! So what are you waiting for?</p>
                     {/* Signup - Login Form Here */}
-                    {login ? <Login/> : <SignUp/>}
+                    {login ? <Login push={props.push}/> : <SignUp push={props.push}/>}
                     {/* Need to break the inline styling out into CSS files */}
                 </Col>
             </Row>

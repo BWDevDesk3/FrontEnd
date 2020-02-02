@@ -19,8 +19,13 @@ const SignUp = props => {
             password: values.password
           };
           props.userSignUp(user);
+          props.push('/home');
         });
       };
+
+      const routeLogin = e => {
+        props.push('/login');
+      }
 
       const { getFieldDecorator } = props.form;
 
@@ -71,7 +76,7 @@ const SignUp = props => {
           <Button type="primary" htmlType="submit" className="login-form-button" size="large">
             Sign Up
           </Button>
-          Or <a href="">Already have an account?</a>
+          Or <a href="" onClick={e => routeLogin()}>Already have an account?</a>
         </Form.Item>
       </Form>
     )

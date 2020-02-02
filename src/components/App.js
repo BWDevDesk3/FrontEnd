@@ -8,6 +8,7 @@ import {PrivateRoute} from '../utils/PrivateRoute';
 import {testing} from '../actions/actions';
 // Components
 import Landing from './Landing';
+import Home from './Home';
 const App = props => 
 {
 
@@ -15,13 +16,20 @@ const App = props =>
   {
     props.testing();
     console.log('useEffect Fired!');
+    console.log(props)
   }, [])
+
+  const historyPush = location => {
+    props.history.push(location);
+  }
 
   return (
     <div style={{backgroundColor: '#030405'}}>
-      <Route exact path="/" render={props => <Landing {...props}/>}></Route>
-      <Route exact path="/login" render={props => <Landing {...props} login={true}/>}></Route>
-      <Route exact path="/signup" render={props => <Landing {...props} login={false}/>}></Route>
+      <Route exact path="/" render={props => <Landing {...props} push={historyPush}/>}></Route>
+      <Route exact path="/login" render={props => <Landing {...props} login={true} push={historyPush}/>}></Route>
+      <Route exact path="/signup" render={props => <Landing {...props} login={false} push={historyPush}/>}></Route>
+      {/* Private route for rendering the application */}
+      <PrivateRoute exact path="/home" component={Home} data={{...props}}/>
     </div>
   );
 };
@@ -29,7 +37,8 @@ const App = props =>
 const mapStateToProps = state => 
 {
   return {
-    testing: state.testing
+    testing: state.testing,
+    user: state.user
   };
 };
 
