@@ -4,7 +4,7 @@ import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 // Action Exports
 // --THIS IS FOR TESTING--
-export const TESTING = "TESTING";
+export const HOME_LOADED = "HOME_LOADED";
 // Login Actions - Login action functionality and handling possible errors
 export const LOGIN_USER = "LOGIN_USER";
 export const LOGIN_USER_ERROR = "LOGIN_USER_ERROR";
@@ -36,12 +36,12 @@ export const RESOLVING_TICKET = "RESOLVING_TICKET";
 const API = 'https://devdeskdb.herokuapp.com/api/';
 
 // Testing Method
-export const testing = () => 
+export const homeLoaded = () => 
 {
     console.log('testing action fired')
     return {
-        type: TESTING,
-        payload: 'Testing payload'
+        type: HOME_LOADED,
+        payload: localStorage.getItem('token')
     };
 };
 
@@ -126,12 +126,13 @@ export const adminSignOut = () =>
 // Fetching of tickets
 export const fetchTickets = () => 
 {
-    const promise = axiosWithAuth.get(API + 'requests');
+    const promise = axiosWithAuth().get(API + 'requests');
 
     return dispatch => {
         dispatch({ type: FETCHING_TICKETS});
         promise
         .then((res) => {
+            console.log(res);
             dispatch({type: FETCH_TICKETS, payload: res.data});
             dispatch({type: FETCHING_TICKETS});
         })
@@ -144,7 +145,7 @@ export const fetchTickets = () =>
 
 // Adding of ticket
 export const addTicket = ticket => {
-    const promise = axiosWithAuth.post(API + 'requests', ticket);
+    const promise = axiosWithAuth().post(API + 'requests', ticket);
 
     return dispatch => {
         dispatch({type: ADDING_TICKET});
@@ -162,7 +163,7 @@ export const addTicket = ticket => {
 
 // Assigning of ticket
 export const assignTicket = ticket=> {
-    const promise = axiosWithAuth.put(API + 'requests/' + ticket.id, ticket);
+    const promise = axiosWithAuth().put(API + 'requests/' + ticket.id, ticket);
 
     return dispatch => {
         dispatch({type: ASSIGNING_TICKET});
@@ -180,7 +181,7 @@ export const assignTicket = ticket=> {
 
 // Resolving of a ticker
 export const resolveTicket = ticket => {
-    const promise = axiosWithAuth.put(API + 'requests/' + ticket.id, ticket);
+    const promise = axiosWithAuth().put(API + 'requests/' + ticket.id, ticket);
 
     return dispatch => {
         dispatch({type: RESOLVING_TICKET});

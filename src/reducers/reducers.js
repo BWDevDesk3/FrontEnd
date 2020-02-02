@@ -1,6 +1,6 @@
 import {
     // Testing
-    TESTING,
+    HOME_LOADED,
     // User Login
     LOGIN_USER, LOGIN_USER_ERROR,
     // Signup User
@@ -32,10 +32,10 @@ const initialState = {
 export const rootReducer = (state = initialState, action) => {
     switch(action.type)
     {
-        case TESTING:
+        case HOME_LOADED:
             return {
                 ...state,
-                testing: action.payload
+                user: action.payload
             };
         case LOGIN_USER:
             return {

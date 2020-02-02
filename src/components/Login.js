@@ -1,6 +1,8 @@
 import React from 'react';
 // Redux Connect
 import {connect} from 'react-redux';
+// Router Link
+import {Link} from 'react-router-dom';
 // Actions
 import {userSignIn} from '../actions/actions';
 // Any Design
@@ -19,13 +21,12 @@ const Login = props => {
             password: values.password
           };
           props.userSignIn(user);
-          props.push('/home');
+          setInterval(() => {
+            console.log('Fired')
+            props.push('/home');
+          }, 800)
         });
       };
-
-      const routeSignup = e => {
-        props.push('/signup')
-      }
 
       const { getFieldDecorator } = props.form;
 
@@ -65,7 +66,7 @@ const Login = props => {
           <Button type="primary" htmlType="submit" className="login-form-button" size="large">
             Login
           </Button>
-          Or <a href="" onClick={e => routeSignup()}>Register a new account?</a>
+          Or <Link to={'/signup'}>Register a new account?</Link>
         </Form.Item>
       </Form>
     )

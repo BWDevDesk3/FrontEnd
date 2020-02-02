@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {withRouter, Route} from 'react-router-dom';
 import {PrivateRoute} from '../utils/PrivateRoute';
 // Actions
-import {testing} from '../actions/actions';
+import {homeLoaded} from '../actions/actions';
 // Components
 import Landing from './Landing';
 import Home from './Home';
@@ -14,9 +14,7 @@ const App = props =>
 
   useEffect(() => 
   {
-    props.testing();
-    console.log('useEffect Fired!');
-    console.log(props)
+    props.homeLoaded();
   }, [])
 
   const historyPush = location => {
@@ -42,4 +40,4 @@ const mapStateToProps = state =>
   };
 };
 
-export default withRouter(connect(mapStateToProps, {testing})(App))
+export default withRouter(connect(mapStateToProps, {homeLoaded})(App))
