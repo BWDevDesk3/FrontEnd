@@ -4,12 +4,23 @@ import {connect} from 'react-redux';
 // Router
 import {withRouter, Link} from 'react-router-dom';
 // Actions
-import {fetchTickets} from '../actions/actions';
+import {fetchTickets, userSignOut} from '../actions/actions';
+// Ant Design
+import { Layout} from 'antd';
+// Components
+import SideMenu from './SideMenu';
+
+const { Header, Content, Footer } = Layout;
 
 const Home = props => {
 
     const fetch = () => {
         props.fetchTickets();
+    }
+
+    const handleSignOut = () => {
+        props.userSignOut();
+        props.history.push('/');
     }
 
     useEffect(() => {
@@ -18,11 +29,18 @@ const Home = props => {
 
     return (
         <div style={{backgroundColor: '#333', minHeight: '100vh', textAlign: 'center'}}>
-            <h1>This is a test</h1>
-            {props.tickets.map((ticket, index) => {
-                return <h1 key={index}>{ticket.id}</h1>
-            })}
-            <Link to={'/'} onClick={e => localStorage.setItem('token', '')}>Logout</Link>
+            <Layout style={{ minHeight: '100vh' }}>
+                <SideMenu signOut={handleSignOut}/>
+                <Layout>
+                    <Header style={{ background: '#fff', padding: 0 }}> 
+                        <h4>{'Welcome'}</h4>
+                    </Header>
+                    <Content style={{ margin: '0 16px' }}>
+
+                    </Content>
+                    <Footer style={{ textAlign: 'center' }}>Blockstack Boilerplate</Footer>
+                </Layout>
+            </Layout>
         </div>
     )
 }
@@ -35,4 +53,4 @@ const mapStateToProps = state =>
   };
 };
 
-export default withRouter(connect(mapStateToProps, {fetchTickets})(Home))
+export default withRouter(connect(mapStateToProps, {fetchTickets, userSignOut})(Home))
