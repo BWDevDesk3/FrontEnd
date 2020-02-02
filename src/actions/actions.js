@@ -67,6 +67,8 @@ export const userSignIn = user =>
         .then((res) => 
         {
             localStorage.setItem('token', res.data.token);
+            console.log(res.data);
+            console.log('ID: ' + res.data.studentid)
         })
         .catch((err) =>
         {
@@ -77,7 +79,7 @@ export const userSignIn = user =>
         })
         return {
             type: LOGIN_USER,
-            payload: localStorage.getItem('token')
+            payload: user
         };
 };
 

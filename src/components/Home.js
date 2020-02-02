@@ -38,7 +38,7 @@ const Home = props => {
                     <Content style={{ margin: '0 16px' }}>
 
                     </Content>
-                    <Footer style={{ textAlign: 'center' }}>Blockstack Boilerplate</Footer>
+                    <Footer style={{ textAlign: 'center' }}>Dev Desk</Footer>
                 </Layout>
             </Layout>
         </div>

@@ -25,21 +25,22 @@ const SiderMenu = props => {
               <Icon type="compass" />
               <span>Explore</span>
             </Menu.Item>
-            <Menu.Item key="3" onClick={(e) => console.log("Projects")}>
-              <Icon type="file" />
-              <span>Projects</span>
+            <Menu.Item key="3" onClick={(e) => console.log("My Tickets")}>
+              <Icon type="snippets" />
+              <span>My Tickets</span>
             </Menu.Item>
             <SubMenu
               key="sub1"
               title={
                 <span>
-                  <Icon type="team" />
-                  <span>Teams</span>
+                  <Icon type="audit" />
+                  <span>Ticket Options</span>
                 </span>
               }
             >
-              <Menu.Item key="4" onClick={(e) => console.log("Team 1")}>Team 1</Menu.Item>
-              <Menu.Item key="5" onClick={(e) => console.log("Team 2")}>Team 2</Menu.Item>
+              <Menu.Item key="4" onClick={(e) => console.log("Add Ticker")}>Add Ticket</Menu.Item>
+              <Menu.Item key="5" onClick={(e) => console.log("Update Tickets")}>Update Tickets</Menu.Item>
+              <Menu.Item key="6" onClick={(e) => console.log("Delete Tickets")}>Delete Tickets</Menu.Item>
             </SubMenu>
             <SubMenu
               key="sub2"
@@ -50,9 +51,9 @@ const SiderMenu = props => {
                 </span>
               }
             >
-              <Menu.Item key="6" onClick={(e) => console.log("Settings")}>Settings</Menu.Item>
-              <Menu.Item key="7" onClick={(e) => console.log("Help")}>Help</Menu.Item>
-              <Menu.Item key="8" onClick={(e) => {console.log("Signed Out"); props.signOut(e);}}>Sign Out</Menu.Item>
+              <Menu.Item key="7" onClick={(e) => console.log("Settings")}>Settings</Menu.Item>
+              <Menu.Item key="8" onClick={(e) => console.log("Help")}>Help</Menu.Item>
+              <Menu.Item key="9" onClick={(e) => {console.log("Signed Out"); props.signOut(e);}}>Sign Out</Menu.Item>
             </SubMenu>
           </Menu>
         </Sider>

@@ -39,8 +39,7 @@ const App = props =>
 const mapStateToProps = state => 
 {
   return {
-    testing: state.testing,
-    user: state.user
+    token: state.token
   };
 };
 
