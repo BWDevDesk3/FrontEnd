@@ -16,7 +16,7 @@ const SignUp = props => {
           }
           let user = {
             username: values.username,
-            password: values.username
+            password: values.password
           };
           props.userSignUp(user);
         });
