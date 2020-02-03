@@ -14,7 +14,7 @@ const { Header, Content, Footer } = Layout;
 
 const Home = props => {
 
-    let page = props.page;
+    let Page = props.page;
 
     const fetch = () => {
         props.fetchTickets();
@@ -35,11 +35,10 @@ const Home = props => {
                 <SideMenu signOut={handleSignOut}/>
                 <Layout>
                     <Header style={{ background: '#fff', padding: 0 }}> 
-                        <h4>{'Welcome ' + page}</h4>
+                        <h4>{'Welcome '}</h4>
                     </Header>
-                    <Content style={{ margin: '0 16px' }}>
-                        {props.tickets.map((ticket, index) => {return<h4 key={index}>{ticket.request_details}</h4>})}
-                    </Content>
+                    {/* Dynamic rendering of different componenets depending on NavBar */}
+                    {Page}
                     <Footer style={{ textAlign: 'center' }}>Dev Desk</Footer>
                 </Layout>
             </Layout>

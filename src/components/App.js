@@ -9,6 +9,8 @@ import {homeLoaded} from '../actions/actions';
 // Components
 import Landing from './Landing';
 import Home from './Home';
+// Home Components
+import Base from './HomeComponents/Base';
 const App = props => 
 {
 
@@ -20,7 +22,7 @@ const App = props =>
     <div style={{backgroundColor: '#030405'}}>
       <Route exact path="/" render={props => <Landing {...props} push={historyPush} login={true}/>}></Route>
       <Route exact path="/signup" render={props => <Landing {...props} login={false} push={historyPush}/>}></Route>
-      <PrivateRoute exact path="/home" component={Home} data={{...props}} page='Home'/>
+      <PrivateRoute exact path="/home" component={Home} data={{...props}} page={<Base/>}/>
       <PrivateRoute exact path="/explore" component={Home} data={{...props}} page='Explore'/>
       <PrivateRoute exact path="/tickets" component={Home} data={{...props}} page='Tickets'/>
       <PrivateRoute exact path="/user" component={Home} data={{...props}} page='User'/>
