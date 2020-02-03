@@ -1,11 +1,19 @@
 import React from 'react';
 import { Card, Icon, Avatar, Tag } from 'antd';
+import { categorySwitch } from './CategorySwitch';
 
 const TicketCard = props => {
 
     const {Meta} = Card;
 
     let ticket = props.ticket;
+
+    let status = ticket.resolved ? 'green' : 'red';
+    let statusText = ticket.resolved ? 'CLOSED' : 'OPEN';
+
+// Implement a switch to handle all of the colors, pictures, and text based on the ticket
+
+    let color = categorySwitch('Javascript');
 
     return (
         <Card
@@ -17,8 +25,8 @@ const TicketCard = props => {
                 />
             }
             actions={[
-                <Tag color="green">OPEN</Tag>,
-                <Tag color="purple">REACT</Tag>,
+                <Tag color={status}>{statusText}</Tag>,
+                <Tag color="purple">{color.color}</Tag>,
             ]}>
             <Meta avatar={<Avatar icon="user" />}
                 title={ticket.request_title}
