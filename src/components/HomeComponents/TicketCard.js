@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Icon, Avatar, Tag } from 'antd';
 import { categorySwitch } from './CategorySwitch';
+import { statusSwitch } from './StatusSwitch';
 
 const TicketCard = props => {
 
@@ -8,30 +9,28 @@ const TicketCard = props => {
 
     let ticket = props.ticket;
 
-    let status = ticket.resolved ? 'green' : 'red';
-    let statusText = ticket.resolved ? 'CLOSED' : 'OPEN';
-
-// Implement a switch to handle all of the colors, pictures, and text based on the ticket
-
+    // Switch to handle category names, colors, and images
     let ticketUI = categorySwitch(ticket);
-    console.log(ticket);
+    // Switch to handle ticket resolved status
+    let ticketStatus = statusSwitch(ticket);
 
     return (
         <Card
             style={{ width: 300 }}
             cover={
                 <img
-                    alt="example"
-                    src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                    alt={ticketUI.name}
+                    src={ticketUI.image}
                 />
             }
             actions={[
-                <Tag color={status}>{statusText}</Tag>,
-                <Tag color="purple">{ticketUI.color}</Tag>,
+                <Tag color={ticketStatus.color}>{ticketStatus.status}</Tag>,
+                <Tag color="purple">{ticketUI.name}</Tag>,
             ]}>
-            <Meta avatar={<Avatar icon="user" />}
+            <Meta
                 title={ticket.request_title}
-                description={ticket.request_details}/>
+                description={ticket.creatorId + ' @ ' + ticket.request_date}/>
+                <p style={{paddingTop: '30px'}}>{ticket.request_details}</p>
         </Card>
     )
 }
