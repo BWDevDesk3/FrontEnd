@@ -15,20 +15,31 @@ const SignUp = props => {
         props.form.validateFields((err, values) => {
           if (!err) {
             console.log('Received values of form: ', values);
-          }
+          };
           let user = {
             username: values.username,
             password: values.password
           };
           props.userSignUp(user);
-          props.push('/home');
-        });
-      };
+          signIn(user)
+            .then(() => {props.push('/home')});
+      });
+    };
+
+      // Hacky promise function to delay sending user to home route
+      const signIn = info => {
+        return new Promise((resolve, reject) => {
+          let login = props.userSignIn(info);
+            setTimeout(function(){
+              resolve(true);
+            }, 1000)
+        })
+      }
 
       const { getFieldDecorator } = props.form;
 
     return (
-        <Form onSubmit={e => handleSubmit()} className="login-form">
+        <Form onSubmit={handleSubmit} className="login-form">
             <Form.Item>
           {getFieldDecorator('email', {
             rules: [{ required: true, message: 'Please input your email!' }],

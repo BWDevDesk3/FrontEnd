@@ -50,6 +50,7 @@ export const userSignUp = user =>
     axios.post(API + 'auth/students/register', user)
         .then((res) => {
             // localStorage.setItem('token', res.data.token);
+            console.log('Account registered!')
             userSignIn(user);
         })
         .catch((err) => {
@@ -58,6 +59,10 @@ export const userSignUp = user =>
                 payload: err
             };
         });
+        return {
+            type: SIGNUP_USER,
+            payload: user
+        };
 };
 
 // Signin Method for User's
@@ -76,7 +81,7 @@ export const userSignIn = user =>
                 type: LOGIN_USER_ERROR,
                 payload: err
             }
-        })
+        });
         return {
             type: LOGIN_USER,
             payload: user
@@ -127,7 +132,7 @@ export const adminSignOut = () =>
 // Fetching of tickets
 export const fetchTickets = () => 
 {
-    const promise = axiosWithAuth().get(API + 'requests');
+    const promise = axiosWithAuth().get(API + 'requests/');
 
     return dispatch => {
         dispatch({ type: FETCHING_TICKETS});
@@ -146,7 +151,7 @@ export const fetchTickets = () =>
 
 // Adding of ticket
 export const addTicket = ticket => {
-    const promise = axiosWithAuth().post(API + 'requests', ticket);
+    const promise = axiosWithAuth().post(API + 'requests/', ticket);
 
     return dispatch => {
         dispatch({type: ADDING_TICKET});

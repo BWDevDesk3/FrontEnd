@@ -38,7 +38,7 @@ const Home = props => {
                         <h4>{'Welcome ' + page}</h4>
                     </Header>
                     <Content style={{ margin: '0 16px' }}>
-
+                        {props.tickets.map((ticket, index) => {return<h4 key={index}>{ticket.request_details}</h4>})}
                     </Content>
                     <Footer style={{ textAlign: 'center' }}>Dev Desk</Footer>
                 </Layout>

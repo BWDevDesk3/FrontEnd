@@ -10,8 +10,6 @@ import { Form, Icon, Input, Button, Checkbox } from 'antd';
 
 const Login = props => {
 
-  let timer;
-
     const handleSubmit = e => {
         e.preventDefault();
         props.form.validateFields((err, values) => {
@@ -38,13 +36,6 @@ const Login = props => {
       }
 
       const { getFieldDecorator } = props.form;
-
-      const setTimer = () => {
-        setInterval(() => {
-          console.log('Fired');
-          props.push('/home');
-        }, 1200);
-      };
 
     return (
         <Form onSubmit={handleSubmit} className="login-form">
