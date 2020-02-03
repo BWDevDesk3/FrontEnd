@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 // Redux Connect
 import {connect} from 'react-redux';
 // Router Link
@@ -6,23 +6,29 @@ import {Link} from 'react-router-dom';
 // Actions
 import {userSignUp, userSignIn} from '../actions/actions';
 // Any Design
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, Spin } from 'antd';
 
 const SignUp = props => {
+
+  
+  const [spinning, setSpinning] = useState(false);
+  const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
     const handleSubmit = e => {
         e.preventDefault();
         props.form.validateFields((err, values) => {
-          if (!err) {
+          if (err) {
             console.log('Received values of form: ', values);
-          };
+          } else {
           let user = {
             username: values.username,
             password: values.password
           };
+          setSpinning(true);
           props.userSignUp(user);
           signIn(user)
-            .then(() => {props.push('/home')});
+            .then(() => {props.push('/home'); setSpinning(false)});
+        }
       });
     };
 
@@ -74,6 +80,7 @@ const SignUp = props => {
             />,
           )}
         </Form.Item>
+        <Spin spinning={spinning} indicator={antIcon} style={{paddingLeft: '50%'}}></Spin>
         <Form.Item style={{color: '#FFF'}}>
           {getFieldDecorator('remember', {
             valuePropName: 'checked',

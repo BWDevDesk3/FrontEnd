@@ -14,6 +14,7 @@ const { Header, Content, Footer } = Layout;
 
 const Home = props => {
 
+    let User = props.user;
     let Page = props.page;
 
     const fetch = () => {
@@ -29,13 +30,15 @@ const Home = props => {
         fetch();
     }, [])
 
+    console.log(User);
+
     return (
         <div style={{backgroundColor: '#333', minHeight: '100vh', textAlign: 'center'}}>
             <Layout style={{ minHeight: '100vh' }}>
                 <SideMenu signOut={handleSignOut}/>
                 <Layout>
                     <Header style={{ background: '#fff', padding: 0 }}> 
-                        <h4>{'Welcome '}</h4>
+                        <h4>{'Welcome to DevDesk!'}</h4>
                     </Header>
                     {/* Dynamic rendering of different componenets depending on NavBar */}
                     {Page}

@@ -26,15 +26,7 @@ const Base = props => {
     return (
         
         <Content style={{ margin: '0 10px' }}>
-            <List grid={{
-      gutter: 16,
-      xs: 1,
-      sm: 2,
-      md: 2,
-      lg: 3,
-      xl: 4,
-      xxl: 5,
-    }}
+            <List grid={{gutter: 16, xs: 1, sm: 2, md: 2, lg: 3, xl: 4, xxl: 5}}
                 dataSource={props.tickets}
                 renderItem={ticket => (
                     <List.Item>

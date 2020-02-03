@@ -26,6 +26,9 @@ export const ASSIGN_TICKET_ERROR = "ASSIGN_TICKET_ERROR";
 // Resolve Ticket Actions - Used for marking tickets as resolved and handling possible errors
 export const RESOLVE_TICKET = "RESOLVE_TICKET";
 export const RESOLVE_TICKET_ERROR = "RESOLVE_TICKET_ERROR";
+// Fetching User by ID Actions - Used to show Username on cards
+export const FETCH_USER = "FETCH_USER";
+export const FETCH_USER_ERROR = "FETCH_USER_ERROR";
 // Fethching and Loading status for various actions
 export const FETCHING_TICKETS = "FETCHING_TICKETS";
 export const ADDING_TICKET = "ADDING_TICKET";
@@ -128,6 +131,21 @@ export const adminSignOut = () =>
         payload: ''
     };
 };
+
+// Fetching user by id
+// export const fetchUser = (id) => {
+//     const promise = axiosWithAuth.get(API + 'students/' + id);
+
+//     return dispatch => {
+//         promise
+//             .then((res) => {
+//                 dispatch({type: FETCH_USER, payload: res})
+//             })
+//             .catch((err) => {
+//                 dispatch({type: FETCH_USER_ERROR, payload: err});
+//             })
+//     }
+// }
 
 // Fetching of tickets
 export const fetchTickets = () => 

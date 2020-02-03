@@ -3,73 +3,73 @@ export const categorySwitch = ticket => {
         case 1:
             return {
                 name: 'JS',
-                color: 'TEST',
+                color: '#2db7f5',
                 image: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
             };
         case 2:
             return {
                 name: 'CSS',
-                color: 'TEST',
+                color: '#2db7f5',
                 image: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
             };
         case 3:
             return {
                 name: 'NODE',
-                color: 'TEST',
+                color: '#2db7f5',
                 image: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
             };
         case 4:
             return {
                 name: 'REACT',
-                color: 'TEST',
+                color: '#2db7f5',
                 image: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
             };
         case 5:
             return {
                 name: 'REDUX',
-                color: 'TEST',
+                color: '#2db7f5',
                 image: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
             };
         case 6:
             return {
                 name: 'JSON',
-                color: 'TEST',
+                color: '#2db7f5',
                 image: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
             };
         case 7:
             return {
                 name: 'PYTHON',
-                color: 'TEST',
+                color: '#2db7f5',
                 image: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
             };
         case 8:
             return {
                 name: 'GIT',
-                color: 'TEST',
+                color: '#2db7f5',
                 image: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
             };
         case 9:
             return {
                 name: 'POSTMAN',
-                color: 'TEST',
+                color: '#2db7f5',
                 image: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
             };
         case 10:
             return {
                 name: 'YARN',
-                color: 'TEST',
+                color: '#2db7f5',
                 image: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
             };
         case 11:
             return {
                 name: 'LIBS',
-                color: 'TEST',
+                color: '#2db7f5',
                 image: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
             };
         case 12:
             return {
                 name: 'DEPLOY',
-                color: 'TEST',
+                color: '#2db7f5',
                 image: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
             };
         default:
