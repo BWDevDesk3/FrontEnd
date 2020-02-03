@@ -13,7 +13,8 @@ const TicketCard = props => {
 
 // Implement a switch to handle all of the colors, pictures, and text based on the ticket
 
-    let color = categorySwitch('Javascript');
+    let ticketUI = categorySwitch(ticket);
+    console.log(ticket);
 
     return (
         <Card
@@ -26,7 +27,7 @@ const TicketCard = props => {
             }
             actions={[
                 <Tag color={status}>{statusText}</Tag>,
-                <Tag color="purple">{color.color}</Tag>,
+                <Tag color="purple">{ticketUI.color}</Tag>,
             ]}>
             <Meta avatar={<Avatar icon="user" />}
                 title={ticket.request_title}
