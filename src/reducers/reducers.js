@@ -25,6 +25,7 @@ const initialState = {
     user: '',
     tickets: [],
     loginError: '',
+    signUpError: '',
     fetchError: '',
     addError: '',
     assignError: '',
@@ -58,7 +59,7 @@ export const rootReducer = (state = initialState, action) => {
         case SIGNUP_USER_ERROR:
             return {
                 ...state,
-                loginError: action.payload
+                signUpError: action.payload
             }
         case LOGIN_ADMIN:
             return {
@@ -78,13 +79,11 @@ export const rootReducer = (state = initialState, action) => {
         case FETCH_USER_TICKETS: 
             return {
                 tickets: [],
-                ...state,
                 tickets: action.payload
             }
         case FETCH_USER_TICKETS_ERROR: 
             return {
                 tickets: [],
-                ...state,
                 fetchError: action.payload
             }
         case FETCH_TICKETS_ERROR:

@@ -7,9 +7,11 @@ import {Link} from 'react-router-dom';
 import {userSignIn} from '../actions/actions';
 // Any Design
 import { Form, Icon, Input, Button, Checkbox, Spin } from 'antd';
+import { isCompositeComponent } from 'react-dom/test-utils';
 
 const Login = props => {
 
+    const [loginError, setLoginError] = useState(props.loginError);
     const [spinning, setSpinning] = useState(false);
     const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
@@ -33,11 +35,16 @@ const Login = props => {
       // Hacky promise function to delay sending user to home route
       const signIn = info => {
         return new Promise((resolve, reject) => {
-          props.userSignIn(info);
+          props.userSignIn(info)
+          .then(() => {
             setTimeout(function(){
               resolve(true);
               setSpinning(false);
-            }, 1000)
+            }, 1000)})
+          .catch((err) => {
+            setSpinning(false);
+          })
+            
         })
       }
 
@@ -69,6 +76,7 @@ const Login = props => {
           )}
         </Form.Item>
         <Spin spinning={spinning} indicator={antIcon} style={{paddingLeft: '50%'}}></Spin>
+        {props.loginError ? <p style={{color: 'red'}}>{props.loginError}</p> : <p></p>}
         <Form.Item style={{color: '#FFF'}}>
           {getFieldDecorator('remember', {
             valuePropName: 'checked',
@@ -87,11 +95,10 @@ const Login = props => {
 };
 
 const mapStateToProps = state => 
-{
-  return {
-    user: state.user
-  };
-};
+({
+    user: state.user,
+    loginError: state.loginError
+});
 
 const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(Login);
 

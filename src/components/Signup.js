@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 // Redux Connect
 import {connect} from 'react-redux';
 // Router Link
@@ -10,6 +10,7 @@ import { Form, Icon, Input, Button, Checkbox, Spin } from 'antd';
 
 const SignUp = props => {
 
+  const [registerHelper, setRegisterHelper] = useState(false);
   
   const [spinning, setSpinning] = useState(false);
   const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
@@ -25,21 +26,34 @@ const SignUp = props => {
             password: values.password
           };
           setSpinning(true);
-          props.userSignUp(user);
-          signIn(user)
+          if(registerHelper){
+            console.log('Helper registration functionality')
+          } else {
+            props.userSignUp(user);
+            signIn(user)
             .then(() => {props.push('/home')});
+          }
         }
       });
+    };
+
+    // Handling of registering of helper account
+    const handleToggle = e => {
+      setRegisterHelper(!registerHelper);
     };
 
       // Hacky promise function to delay sending user to home route
       const signIn = info => {
         return new Promise((resolve, reject) => {
-          props.userSignIn(info);
+          props.userSignIn(info)
+          .then(() => {
             setTimeout(function(){
               resolve(true);
               setSpinning(false);
-            }, 1000)
+            }, 1000)})
+          .catch((err) => {
+            setSpinning(false);
+          })
         })
       }
 
@@ -82,14 +96,13 @@ const SignUp = props => {
           )}
         </Form.Item>
         <Spin spinning={spinning} indicator={antIcon} style={{paddingLeft: '50%'}}></Spin>
+        {props.signUpError ? <p style={{color: 'red'}}>{props.signUpError}</p> : <p></p>}
         <Form.Item style={{color: '#FFF'}}>
           {getFieldDecorator('remember', {
             valuePropName: 'checked',
-            initialValue: true,
-          })(<Checkbox style={{color: '#FFF'}}>Remember me</Checkbox>)}
-          <Link to={'/'}>
-            Request Help
-          </Link>
+            initialValue: registerHelper,
+          })(<Checkbox onChange={handleToggle} style={{color: '#FFF'}}>Register as Helper?</Checkbox>)}
+          
           <Button type="primary" htmlType="submit" className="login-form-button" size="large">
             Sign Up
           </Button>
@@ -102,7 +115,8 @@ const SignUp = props => {
 const mapStateToProps = state => 
 {
   return {
-    user: state.user
+    user: state.user,
+    signUpError: state.signUpError
   };
 };
 

@@ -27,6 +27,10 @@ const TicketCard = props => {
         setVisible(false);
     }
 
+    const assignTicket = () => {
+        console.log('Assigning Ticket!');
+    }
+
     const fetchUser = (id) => {
         const promise = axiosWithAuth().get('https://devdeskdb.herokuapp.com/api/students/' + id);
 
@@ -67,14 +71,17 @@ const TicketCard = props => {
         onOk={hideModal}
         onCancel={hideModal}
         footer={[
-            <Button key="back" type="primary" onClick={hideModal}>
-              Close
+            <Button key="back" onClick={hideModal}>
+                Close
+            </Button>,
+            <Button key="assign" type="primary" onClick={assignTicket}>
+                Assign
             </Button>
           ]}
       >
         <p>Description: {ticket.request_details}</p>
         <p>Steps Taken: {ticket.request_stepstaken}</p>
-        <p>Helper ID: {ticket.helperId ? ticket.helperId : 'N/A'}</p>
+        <p>Helper ID: {ticket.helperId ? ticket.helperId : 'Needed!'}</p>
       </Modal>
       </div>
     )

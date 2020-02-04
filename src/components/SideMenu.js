@@ -6,7 +6,12 @@ const { Sider } = Layout;
 
 const SiderMenu = props => {
 
-    const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(true);
+
+  let index = 1;
+  const setIndex = (index, e) => {
+    index = index;
+  }
 
   const onCollapse = collapsed => {
     console.log(collapsed);
@@ -16,21 +21,21 @@ const SiderMenu = props => {
     return (
         <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
           <div className="logo" />
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-            <Menu.Item key="1">
-              <Icon type="desktop" onClick={(e) => console.log("Home")}/>
+          <Menu theme="dark" defaultSelectedKeys={[`${index}`]} mode="inline">
+            <Menu.Item key="1" onClick={(e) => setIndex(1, e)}>
+              <Icon type="desktop" onClick={(e) => setIndex(1, e)}/>
               <Link to='/home'>Home</Link>
             </Menu.Item>
-            <Menu.Item key="2" onClick={(e) => console.log("Explore")}>
-              <Icon type="compass" />
+            <Menu.Item key="2" onClick={() => index = 2}>
+              <Icon type="compass" onClick={() => index = 2}/>
               <Link to='/explore'>Explore</Link>
             </Menu.Item>
-            <Menu.Item key="3" onClick={(e) => console.log("My Tickets")}>
-              <Icon type="snippets" />
+            <Menu.Item key="3" onClick={() => index = 3}>
+              <Icon type="snippets" onClick={() => index = 3}/>
               <Link to='/tickets'>My Tickets</Link>
             </Menu.Item>
-            <Menu.Item key="4" onClick={(e) => console.log("User")}>
-                  <Icon type="user" />
+            <Menu.Item key="4" onClick={() => index = 4}>
+                  <Icon type="user" onClick={() => index = 4}/>
                   <Link to='/user'>User</Link>
             </Menu.Item>
             <Menu.Item key="5" onClick={(e) => props.signOut(e)}>

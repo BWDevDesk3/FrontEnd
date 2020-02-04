@@ -58,6 +58,10 @@ export const userSignUp = user =>
             // localStorage.setItem('token', res.data.token);
             console.log('Account registered!')
             userSignIn(user);
+            return {
+                type: SIGNUP_USER,
+                payload: user
+            };
         })
         .catch((err) => {
             return {
@@ -65,34 +69,35 @@ export const userSignUp = user =>
                 payload: err
             };
         });
-        return {
-            type: SIGNUP_USER,
-            payload: user
-        };
 };
 
 // Signin Method for User's
-export const userSignIn = user => 
-{
-    axios.post(API + 'auth/students/login', user)
-        .then((res) => 
-        {
-            localStorage.setItem('token', res.data.token);
-            console.log(res.data);
-            console.log('ID: ' + res.data.studentid)
-        })
-        .catch((err) =>
-        {
-            return {
-                type: LOGIN_USER_ERROR,
-                payload: err
-            }
-        });
-        return {
-            type: LOGIN_USER,
-            payload: user
-        };
+export const userSignIn = user => dispatch => {
+    return new Promise((resolve, reject) => {
+        axios.post(API + 'auth/students/login', user)
+            .then((res) => {
+                console.log(res.data);
+                console.log('ID: ' + res.data.studentid)
+                localStorage.setItem('token', res.data.token);
+                dispatch(loginUserSuccess(res.data.token));
+                resolve();
+            })
+            .catch((err) => {
+                dispatch(loginUserError(err.response.data.message));
+                reject();
+            });
+    })
 };
+
+export const loginUserSuccess = user => ({
+    type: LOGIN_USER,
+    payload: user
+})
+
+export const loginUserError = error => ({
+    type: LOGIN_USER_ERROR,
+    payload: error
+})
 
 // Signout Method for User's
 export const userSignOut = () =>
@@ -158,19 +163,15 @@ export const fetchTickets = () =>
 // Fetching of tickets
 export const fetchUserTickets = id => 
 {
-    const promise = axiosWithAuth().get('https://devdeskdb.herokuapp.com/api/students/' + 1 + '/requests');
+    const promise = axiosWithAuth().get('https://devdeskdb.herokuapp.com/api/students/' + id + '/requests');
 
     return dispatch => {
-        dispatch({ type: FETCHING_TICKETS});
         promise
         .then((res) => {
-            console.log(res);
             dispatch({type: FETCH_USER_TICKETS, payload: res.data});
-            dispatch({type: FETCHING_TICKETS});
         })
         .catch((err) => {
             dispatch({type: FETCH_USER_TICKETS_ERROR, payload: err});
-            dispatch({type: FETCHING_TICKETS})
         })
     };
 };

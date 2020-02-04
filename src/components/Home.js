@@ -22,8 +22,6 @@ const Home = props => {
         props.history.push('/');
     }
 
-    console.log(User);
-
     return (
         <div style={{backgroundColor: '#333', minHeight: '100vh', textAlign: 'center'}}>
             <Layout style={{ minHeight: '100vh' }}>
