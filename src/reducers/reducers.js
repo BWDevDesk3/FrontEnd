@@ -24,7 +24,6 @@ import {
 } from '../actions/actions';
 
 const initialState = {
-    testing: '',
     token: '',
     user: '',
     userID: '',
@@ -94,14 +93,17 @@ export const rootReducer = (state = initialState, action) => {
             }
         case FETCH_USER_TICKETS: 
             return {
+                ...state,
                 tickets: action.payload
             }
         case CLEAR_TICKETS:
             return {
+                ...state,
                 tickets: []
             }
         case FETCH_USER_TICKETS_ERROR: 
             return {
+                ...state,
                 tickets: [],
                 fetchError: action.payload
             }

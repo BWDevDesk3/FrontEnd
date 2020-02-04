@@ -15,7 +15,7 @@ const {Content} = Layout;
 const Explore = props => {
 
     const fetch = () => {
-        props.fetchUserTickets(1);
+        props.fetchUserTickets(7);
     }
 
     useEffect(() => {
