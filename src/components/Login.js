@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 // Redux Connect
 import {connect} from 'react-redux';
 // Router Link
@@ -25,7 +25,7 @@ const Login = props => {
           };
           setSpinning(true);
           signIn(user)
-            .then(() => {props.push('/home'); setSpinning(false);})
+            .then(() => {props.push('/home')})
         }
         });
       };
@@ -33,9 +33,10 @@ const Login = props => {
       // Hacky promise function to delay sending user to home route
       const signIn = info => {
         return new Promise((resolve, reject) => {
-          let login = props.userSignIn(info);
+          props.userSignIn(info);
             setTimeout(function(){
               resolve(true);
+              setSpinning(false);
             }, 1000)
         })
       }

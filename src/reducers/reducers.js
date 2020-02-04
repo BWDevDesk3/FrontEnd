@@ -9,6 +9,8 @@ import {
     LOGIN_ADMIN, LOGIN_ADMIN_ERROR,
     // Fetch Tickers
     FETCH_TICKETS, FETCH_TICKETS_ERROR, FETCHING_TICKETS,
+    // Fetch Tickers
+    FETCH_USER_TICKETS, FETCH_USER_TICKETS_ERROR,
     // Adding Tickets
     ADD_TICKET, ADD_TICKET_ERROR, ADDING_TICKET,
     // Assigning Ticker
@@ -37,7 +39,7 @@ export const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 token: action.payload
-            };
+            }
         case LOGIN_USER:
             return {
                 ...state,
@@ -72,6 +74,18 @@ export const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 tickets: action.payload
+            }
+        case FETCH_USER_TICKETS: 
+            return {
+                tickets: [],
+                ...state,
+                tickets: action.payload
+            }
+        case FETCH_USER_TICKETS_ERROR: 
+            return {
+                tickets: [],
+                ...state,
+                fetchError: action.payload
             }
         case FETCH_TICKETS_ERROR:
             return {

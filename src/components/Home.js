@@ -1,8 +1,8 @@
-import React, {useEffect} from "react";
+import React from "react";
 // Redux Connect
 import {connect} from 'react-redux';
 // Router
-import {withRouter, Link} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 // Actions
 import {fetchTickets, userSignOut} from '../actions/actions';
 // Ant Design
@@ -10,25 +10,17 @@ import { Layout} from 'antd';
 // Components
 import SideMenu from './SideMenu';
 
-const { Header, Content, Footer } = Layout;
+const { Header, Footer } = Layout;
 
 const Home = props => {
 
     let User = props.user;
     let Page = props.page;
 
-    const fetch = () => {
-        props.fetchTickets();
-    }
-
     const handleSignOut = () => {
         props.userSignOut();
         props.history.push('/');
     }
-
-    useEffect(() => {
-        fetch();
-    }, [])
 
     console.log(User);
 

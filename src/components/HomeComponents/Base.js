@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 // Router
 import {withRouter} from 'react-router-dom';
 // Actions
-import {fetchTickets, userSignOut} from '../../actions/actions';
+import {fetchTickets} from '../../actions/actions';
 // Ant Design
 import {Layout, List} from 'antd';
 // Components
@@ -20,7 +20,6 @@ const Base = props => {
 
     useEffect(() => {
         fetch();
-        console.log(props)
     }, [])
 
     return (
@@ -45,4 +44,4 @@ const mapStateToProps = state =>
   };
 };
 
-export default withRouter(connect(mapStateToProps, {fetchTickets, userSignOut})(Base))
+export default withRouter(connect(mapStateToProps, {fetchTickets})(Base))

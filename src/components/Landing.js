@@ -1,6 +1,6 @@
 import React from 'react';
 // Ant Design
-import {Row, Col, Spin, Icon} from 'antd';
+import {Row, Col} from 'antd';
 // Importing image
 import laptop from '../assets/laptop.jpg';
 import SignUp from './Signup';

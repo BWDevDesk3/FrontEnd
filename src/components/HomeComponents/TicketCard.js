@@ -32,7 +32,6 @@ const TicketCard = props => {
 
         promise
             .then((res) => {
-                console.log(res.data.username);
                 setCreator(res.data.username);
             })
             .catch((err) => {
@@ -75,7 +74,7 @@ const TicketCard = props => {
       >
         <p>Description: {ticket.request_details}</p>
         <p>Steps Taken: {ticket.request_stepstaken}</p>
-        <p>{'HelperID: ' + ticket.helperId ? ticket.helperId : 'N/A'}</p>
+        <p>Helper ID: {ticket.helperId ? ticket.helperId : 'N/A'}</p>
       </Modal>
       </div>
     )

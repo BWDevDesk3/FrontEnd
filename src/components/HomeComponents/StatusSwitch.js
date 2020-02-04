@@ -2,7 +2,7 @@ export const statusSwitch = ticket => {
     switch(ticket.resolved){
         case 0:
             return {
-                status: 'CLOSED',
+                status: 'SOLVED',
                 color: 'GREEN'
             };
         default:

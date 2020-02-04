@@ -17,6 +17,9 @@ export const LOGIN_ADMIN_ERROR = "LOGIN_ADMIN_ERROR";
 // Fetching Tickets Actions - Used for fetching all tickets that are in the system and handling possible errors
 export const FETCH_TICKETS = "FETCH_TICKETS";
 export const FETCH_TICKETS_ERROR = "FETCH_TICKETS_ERROR";
+// Fetching User Tickets Actions - Used for fetching all tickets that are in the system and handling possible errors
+export const FETCH_USER_TICKETS = "FETCH_TICKETS";
+export const FETCH_USER_TICKETS_ERROR = "FETCH_TICKETS_ERROR";
 // Create Ticket Actions - Used for creating a new ticket and handling possible errors
 export const ADD_TICKET = "ADD_TICKETS";
 export const ADD_TICKET_ERROR = "ADD_TICKET_ERROR";
@@ -132,21 +135,6 @@ export const adminSignOut = () =>
     };
 };
 
-// Fetching user by id
-// export const fetchUser = (id) => {
-//     const promise = axiosWithAuth.get(API + 'students/' + id);
-
-//     return dispatch => {
-//         promise
-//             .then((res) => {
-//                 dispatch({type: FETCH_USER, payload: res})
-//             })
-//             .catch((err) => {
-//                 dispatch({type: FETCH_USER_ERROR, payload: err});
-//             })
-//     }
-// }
-
 // Fetching of tickets
 export const fetchTickets = () => 
 {
@@ -162,6 +150,26 @@ export const fetchTickets = () =>
         })
         .catch((err) => {
             dispatch({type: FETCH_TICKETS_ERROR, payload: err});
+            dispatch({type: FETCHING_TICKETS})
+        })
+    };
+};
+
+// Fetching of tickets
+export const fetchUserTickets = id => 
+{
+    const promise = axiosWithAuth().get('https://devdeskdb.herokuapp.com/api/students/' + 1 + '/requests');
+
+    return dispatch => {
+        dispatch({ type: FETCHING_TICKETS});
+        promise
+        .then((res) => {
+            console.log(res);
+            dispatch({type: FETCH_USER_TICKETS, payload: res.data});
+            dispatch({type: FETCHING_TICKETS});
+        })
+        .catch((err) => {
+            dispatch({type: FETCH_USER_TICKETS_ERROR, payload: err});
             dispatch({type: FETCHING_TICKETS})
         })
     };
