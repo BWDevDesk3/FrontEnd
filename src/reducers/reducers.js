@@ -5,12 +5,16 @@ import {
     LOGIN_USER, LOGIN_USER_ERROR,
     // Signup User
     SIGNUP_USER, SIGNUP_USER_ERROR,
+    // Account is Helper Action
+    IS_HELPER,
     // Admin Login
     LOGIN_ADMIN, LOGIN_ADMIN_ERROR,
     // Fetch Tickers
     FETCH_TICKETS, FETCH_TICKETS_ERROR, FETCHING_TICKETS,
     // Fetch Tickers
     FETCH_USER_TICKETS, FETCH_USER_TICKETS_ERROR,
+    // Clearing of tickets
+    CLEAR_TICKETS,
     // Adding Tickets
     ADD_TICKET, ADD_TICKET_ERROR, ADDING_TICKET,
     // Assigning Ticker
@@ -30,6 +34,7 @@ const initialState = {
     addError: '',
     assignError: '',
     resolveError: '',
+    isHelper: false,
     fetchingData: false
 }
 
@@ -40,6 +45,11 @@ export const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 token: action.payload
+            }
+        case IS_HELPER:
+            return {
+                ...state,
+                isHelper: action.payload
             }
         case LOGIN_USER:
             return {
@@ -78,8 +88,11 @@ export const rootReducer = (state = initialState, action) => {
             }
         case FETCH_USER_TICKETS: 
             return {
-                tickets: [],
                 tickets: action.payload
+            }
+        case CLEAR_TICKETS:
+            return {
+                tickets: []
             }
         case FETCH_USER_TICKETS_ERROR: 
             return {

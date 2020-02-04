@@ -23,11 +23,12 @@ const SignUp = props => {
           } else {
           let user = {
             username: values.username,
-            password: values.password
+            // password: values.password
           };
           setSpinning(true);
           if(registerHelper){
             console.log('Helper registration functionality')
+            props.userSignUp(user)
           } else {
             props.userSignUp(user);
             signIn(user)
@@ -36,6 +37,8 @@ const SignUp = props => {
         }
       });
     };
+
+    useEffect(() => {console.log(props.signUpError)}, [props.signUpError])
 
     // Handling of registering of helper account
     const handleToggle = e => {

@@ -3,8 +3,9 @@ import axios from 'axios';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 // Action Exports
-// --THIS IS FOR TESTING--
 export const HOME_LOADED = "HOME_LOADED";
+// Account is Helper Action
+export const IS_HELPER = "IS_HELPER";
 // Login Actions - Login action functionality and handling possible errors
 export const LOGIN_USER = "LOGIN_USER";
 export const LOGIN_USER_ERROR = "LOGIN_USER_ERROR";
@@ -20,6 +21,8 @@ export const FETCH_TICKETS_ERROR = "FETCH_TICKETS_ERROR";
 // Fetching User Tickets Actions - Used for fetching all tickets that are in the system and handling possible errors
 export const FETCH_USER_TICKETS = "FETCH_TICKETS";
 export const FETCH_USER_TICKETS_ERROR = "FETCH_TICKETS_ERROR";
+// Clearing tickets Action
+export const CLEAR_TICKETS = "CLEAR_TICKETS";
 // Create Ticket Actions - Used for creating a new ticket and handling possible errors
 export const ADD_TICKET = "ADD_TICKETS";
 export const ADD_TICKET_ERROR = "ADD_TICKET_ERROR";
@@ -60,18 +63,19 @@ export const userSignUp = user =>
             userSignIn(user);
             return {
                 type: SIGNUP_USER,
-                payload: user
+                payload: user,
             };
         })
         .catch((err) => {
             return {
                 type: SIGNUP_USER_ERROR,
-                payload: err
+                payload: 'Error'
             };
         });
 };
 
 // Signin Method for User's
+// Need to check for helper specific key and respond accordingly
 export const userSignIn = user => dispatch => {
     return new Promise((resolve, reject) => {
         axios.post(API + 'auth/students/login', user)
@@ -168,6 +172,7 @@ export const fetchUserTickets = id =>
     return dispatch => {
         promise
         .then((res) => {
+            dispatch({type: CLEAR_TICKETS})
             dispatch({type: FETCH_USER_TICKETS, payload: res.data});
         })
         .catch((err) => {

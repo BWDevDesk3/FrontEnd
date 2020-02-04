@@ -7,11 +7,9 @@ import {Link} from 'react-router-dom';
 import {userSignIn} from '../actions/actions';
 // Any Design
 import { Form, Icon, Input, Button, Checkbox, Spin } from 'antd';
-import { isCompositeComponent } from 'react-dom/test-utils';
 
 const Login = props => {
 
-    const [loginError, setLoginError] = useState(props.loginError);
     const [spinning, setSpinning] = useState(false);
     const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 

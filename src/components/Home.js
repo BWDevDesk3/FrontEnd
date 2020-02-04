@@ -14,7 +14,6 @@ const { Header, Footer } = Layout;
 
 const Home = props => {
 
-    let User = props.user;
     let Page = props.page;
 
     const handleSignOut = () => {
