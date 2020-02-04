@@ -9,6 +9,7 @@ export const IS_HELPER = "IS_HELPER";
 // Login Actions - Login action functionality and handling possible errors
 export const LOGIN_USER = "LOGIN_USER";
 export const LOGIN_USER_ERROR = "LOGIN_USER_ERROR";
+export const SET_USER_ID = "SET_USER_ID";
 // Signup Actions - Signup action functionality and handling possible errors
 export const SIGNUP_USER = "SIGNUP_USER";
 export const SIGNUP_USER_ERROR = "SIGNUP_USER_ERROR";
@@ -54,36 +55,59 @@ export const homeLoaded = () =>
 };
 
 // User Signup Method
-export const userSignUp = user => 
+export const userSignUp = (user, helper) => dispatch =>
 {
-    axios.post(API + 'auth/students/register', user)
+    let route = helper ? 'helpers' : 'students';
+
+    return new Promise((resolve, reject) => {
+        axios.post(API + 'auth/'+ route +'/register', user)
         .then((res) => {
-            // localStorage.setItem('token', res.data.token);
-            console.log('Account registered!')
-            userSignIn(user);
-            return {
-                type: SIGNUP_USER,
-                payload: user,
-            };
+            // console.log(res);
+            dispatch(signupUserSuccess(res.data));
+            if(helper){dispatch(signUpUserHerlper(true))}
+            resolve();
         })
         .catch((err) => {
-            return {
-                type: SIGNUP_USER_ERROR,
-                payload: 'Error'
-            };
+            dispatch(signupUserError(err.response.data.message));
+            reject();
         });
+    })
 };
+
+export const signupUserSuccess = data => {
+    return dispatch => {
+        dispatch({type: SIGNUP_USER, payload: data.username})
+        dispatch({type: SET_USER_ID, payload: data.id})
+    }
+}
+
+export const signUpUserHerlper = bool => {
+    console.log('Registered as helper');
+    return dispatch =>{ dispatch({type: IS_HELPER, payload: bool})}
+}
+
+export const signupUserError = error => ({
+    type: SIGNUP_USER_ERROR,
+    payload: error
+})
 
 // Signin Method for User's
 // Need to check for helper specific key and respond accordingly
-export const userSignIn = user => dispatch => {
+export const userSignIn = (user, helper) => dispatch => {
+
+    let route = helper ? 'helpers' : 'students';
+    console.log(route);
+    console.log(helper);
+
     return new Promise((resolve, reject) => {
-        axios.post(API + 'auth/students/login', user)
+        axios.post(API + 'auth/'+ route + '/login', user)
             .then((res) => {
                 console.log(res.data);
                 console.log('ID: ' + res.data.studentid)
+                localStorage.setItem('token', '');
                 localStorage.setItem('token', res.data.token);
-                dispatch(loginUserSuccess(res.data.token));
+                dispatch(loginUserSuccess(res.data.token, res.data.studentid));
+                if(helper){dispatch(loginUserHerlper(true))}
                 resolve();
             })
             .catch((err) => {
@@ -93,10 +117,16 @@ export const userSignIn = user => dispatch => {
     })
 };
 
-export const loginUserSuccess = user => ({
-    type: LOGIN_USER,
-    payload: user
-})
+export const loginUserSuccess = (user, id) => {
+    return dispatch => {
+        dispatch({ type: LOGIN_USER, payload: user})
+        dispatch({ type: SET_USER_ID, payload: id})
+    }
+}
+export const loginUserHerlper = bool => {
+    console.log('Logged in as helper');
+    return dispatch =>{ dispatch({type: IS_HELPER, payload: bool})}
+}
 
 export const loginUserError = error => ({
     type: LOGIN_USER_ERROR,

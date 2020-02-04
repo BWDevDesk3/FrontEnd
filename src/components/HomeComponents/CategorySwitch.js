@@ -76,7 +76,7 @@ export const categorySwitch = ticket => {
             return {
                 name: 'N/A',
                 color: 'ORANGE',
-                image: ''
+                image: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
             };
     }
 }

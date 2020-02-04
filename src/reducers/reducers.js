@@ -20,13 +20,14 @@ import {
     // Assigning Ticker
     ASSIGN_TICKET, ASSIGN_TICKET_ERROR, ASSIGNING_TICKET,
     // Resolving Ticker
-    RESOLVE_TICKET, RESOLVE_TICKET_ERROR, RESOLVING_TICKET
+    RESOLVE_TICKET, RESOLVE_TICKET_ERROR, RESOLVING_TICKET, SET_USER_ID
 } from '../actions/actions';
 
 const initialState = {
     testing: '',
     token: '',
     user: '',
+    userID: '',
     tickets: [],
     loginError: '',
     signUpError: '',
@@ -54,12 +55,17 @@ export const rootReducer = (state = initialState, action) => {
         case LOGIN_USER:
             return {
                 ...state,
-                user: action.payload
+                token: action.payload
             }
         case LOGIN_USER_ERROR:
             return {
                 ...state, 
                 loginError: action.payload
+            }
+        case SET_USER_ID:
+            return {
+                ...state,
+                userID: action.payload
             }
         case SIGNUP_USER:
             return {

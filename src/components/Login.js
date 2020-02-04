@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // Redux Connect
 import {connect} from 'react-redux';
 // Router Link
@@ -10,46 +10,53 @@ import { Form, Icon, Input, Button, Checkbox, Spin } from 'antd';
 
 const Login = props => {
 
-    const [spinning, setSpinning] = useState(false);
-    const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
+  const [registerHelper, setRegisterHelper] = useState(false);
+  const [spinning, setSpinning] = useState(false);
+  const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
-    const handleSubmit = e => {
-        e.preventDefault();
-        props.form.validateFields((err, values) => {
-          if (err) {
-            console.log('Received values of form: ', values);
-          } else {
-          let user = {
-            username: values.username,
-            password: values.password
-          };
-          setSpinning(true);
-          signIn(user)
-            .then(() => {props.push('/home')})
-        }
-        });
-      };
-
-      // Hacky promise function to delay sending user to home route
-      const signIn = info => {
-        return new Promise((resolve, reject) => {
-          props.userSignIn(info)
-          .then(() => {
-            setTimeout(function(){
-              resolve(true);
-              setSpinning(false);
-            }, 1000)})
-          .catch((err) => {
-            setSpinning(false);
-          })
-            
-        })
+  const handleSubmit = e => {
+    e.preventDefault();
+    props.form.validateFields((err, values) => {
+      if (err) {
+        console.log('Received values of form: ', values);
+      } else {
+        let user = {
+          username: values.username,
+          password: values.password
+        };
+        setSpinning(true);
+        signIn(user, registerHelper)
+          .then(() => {props.push('/home')})
       }
+    });
+  };
 
-      const { getFieldDecorator } = props.form;
+  // Handling of registering of helper account
+  const handleToggle = e => {
+    setRegisterHelper(!registerHelper);
+  };
+
+  // Hacky promise function to delay sending user to home route
+  const signIn = (user, bool) => {
+    return new Promise((resolve, reject) => {
+      props.userSignIn(user, bool)
+        .then(() => {
+          setTimeout(function(){
+            resolve(true);
+            setSpinning(false);
+          }, 1000)})
+        .catch((err) => {
+          setSpinning(false);
+        })
+      })
+    }
+
+    useEffect(() => {console.log(registerHelper)}, [registerHelper])
+
+    const { getFieldDecorator } = props.form;
 
     return (
-        <Form onSubmit={handleSubmit} className="login-form">
+      <Form onSubmit={handleSubmit} className="login-form">
         <Form.Item>
           {getFieldDecorator('username', {
             rules: [{ required: true, message: 'Please input your username!' }],
@@ -78,8 +85,8 @@ const Login = props => {
         <Form.Item style={{color: '#FFF'}}>
           {getFieldDecorator('remember', {
             valuePropName: 'checked',
-            initialValue: true,
-          })(<Checkbox style={{color: '#FFF'}}>Remember me</Checkbox>)}
+            initialValue: registerHelper,
+          })(<Checkbox onChange={handleToggle} style={{color: '#FFF'}}>Login as Helper?</Checkbox>)}
           <Link to={'/'}>
             Forgot Password?
           </Link>

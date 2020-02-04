@@ -23,17 +23,16 @@ const SignUp = props => {
           } else {
           let user = {
             username: values.username,
-            // password: values.password
+            password: values.password
           };
           setSpinning(true);
-          if(registerHelper){
-            console.log('Helper registration functionality')
-            props.userSignUp(user)
-          } else {
-            props.userSignUp(user);
-            signIn(user)
-            .then(() => {props.push('/home')});
-          }
+            props.userSignUp(user, registerHelper)
+            .then(()=> {
+              signIn(user, registerHelper)
+              .then(() => {props.push('/home')});
+            })
+            .catch((err) => {console.log(err); setSpinning(false)});
+          // }
         }
       });
     };
@@ -99,7 +98,7 @@ const SignUp = props => {
           )}
         </Form.Item>
         <Spin spinning={spinning} indicator={antIcon} style={{paddingLeft: '50%'}}></Spin>
-        {props.signUpError ? <p style={{color: 'red'}}>{props.signUpError}</p> : <p></p>}
+        {props.signUpError ? <p style={{color: 'red'}}>Error Creating Account!</p> : <p></p>}
         <Form.Item style={{color: '#FFF'}}>
           {getFieldDecorator('remember', {
             valuePropName: 'checked',
