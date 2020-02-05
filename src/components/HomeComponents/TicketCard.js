@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import {connect} from 'react-redux';
 // Actions
 import {fetchUserTickets} from '../../actions/actions';
-import { Card, Icon, Modal, Tag, Button, Avatar } from 'antd';
+import { Card, Icon, Modal, Tag, Button, Avatar, message } from 'antd';
 import { categorySwitch } from './CategorySwitch';
 import { statusSwitch } from './StatusSwitch';
 import { axiosWithAuth } from '../../utils/axiosWithAuth';
@@ -38,9 +38,30 @@ const TicketCard = props => {
         setVisible(false);
     }
 
-    const assignTicket = () => {
-        console.log('Assigning Ticket!');
-    }
+    const assignTicket = ticketid => {
+        const id = localStorage.getItem("id");
+        console.log("ticket", ticket, ticketid, id);
+        const assignedticket = {
+          creatorId: ticket.creatorId,
+          helperId: id,
+          request_category: ticket.request_category,
+          request_date: ticket.request_date,
+          request_details: ticket.request_details,
+          request_stepstaken: ticket.request_stepstaken,
+          request_title: ticket.request_title,
+          resolved: ticket.resolved
+        };
+        const promise = axiosWithAuth().put(
+          "https://devdeskdb.herokuapp.com/api/requests/" + ticketid,
+          assignedticket
+        );
+        promise
+          .then(res => {hideModal(); ticket.helperId = id; message.success('Success')})
+          .catch(err => {
+            console.log(err);
+            message.error('Error assigning ticket!')
+          });
+      };
 
     const fetchUser = id => {
         const promise = axiosWithAuth().get('https://devdeskdb.herokuapp.com/api/students/' + id);
@@ -94,10 +115,10 @@ const TicketCard = props => {
         onOk={hideModal}
         onCancel={hideModal}
         footer={[
-            owner ?
+            owner || helper ?
             <>
             <Button key="back" onClick={hideModal}>Close</Button>
-            <Button>Delete</Button>
+            <Button type="primary" onClick={e => helper ? assignTicket(ticket.id) : console.log('Delete')}>{helper ? 'Assign' : 'Delete'}</Button>
             </>
             :
             <>
