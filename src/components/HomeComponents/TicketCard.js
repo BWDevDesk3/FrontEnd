@@ -12,6 +12,9 @@ const TicketCard = props => {
 
     let ticket = props.ticket;
     let ticketCreator = ticket.creatorId || ticket.creatorid
+    let id = localStorage.getItem('id');
+
+    const owner = id == ticketCreator;
 
     // Switch to handle category names, colors, and images
     let ticketUI = categorySwitch(ticket);
@@ -19,6 +22,7 @@ const TicketCard = props => {
     let ticketStatus = statusSwitch(ticket);
 
     const [creator, setCreator] = useState();
+    const [image, setImage] = useState(null);
 
     const showModal = e => {
         setVisible(true);
@@ -32,7 +36,7 @@ const TicketCard = props => {
         console.log('Assigning Ticket!');
     }
 
-    const fetchUser = (id) => {
+    const fetchUser = id => {
         const promise = axiosWithAuth().get('https://devdeskdb.herokuapp.com/api/students/' + id);
 
         promise
@@ -44,7 +48,18 @@ const TicketCard = props => {
             })
     }
 
-    useEffect(() =>{fetchUser(ticketCreator)}, [])
+    const fetchUserImage = id => {
+        const promise = axiosWithAuth().get('https://devdeskdb.herokuapp.com/api/students/'+ id + '/image', { responseType: "arraybuffer"})
+
+        promise
+        .then((res) => {
+            let resImage = new Buffer.from(res.data, 'binary').toString('base64');
+            setImage(resImage);
+        })
+        .catch((err) => console.log('Error', err))
+    }
+
+    useEffect(() =>{fetchUser(ticketCreator); fetchUserImage(ticketCreator)}, [])
 
     return (
         <div>
@@ -62,7 +77,7 @@ const TicketCard = props => {
                 <Icon type="search" onClick={e => showModal(e)}/>
             ]}>
             <Meta
-                avatar={<Avatar icon="user" />}
+                avatar={<Avatar src={'data:image/png;base64, ' + image} />}
                 title={ticket.request_title}
                 description={creator + ' @ ' + ticket.request_date}/>
                 <p style={{paddingTop: '30px', width: '250', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>{ticket.request_details}</p>
@@ -73,12 +88,15 @@ const TicketCard = props => {
         onOk={hideModal}
         onCancel={hideModal}
         footer={[
-            <Button key="back" onClick={hideModal}>
-                Close
-            </Button>,
-            <Button key="assign" type="primary" onClick={assignTicket}>
-                Assign
-            </Button>
+            owner ?
+            <>
+            <Button key="back" onClick={hideModal}>Close</Button>
+            <Button>Delete</Button>
+            </>
+            :
+            <>
+            <Button key="back" type='primary' onClick={hideModal}>Close</Button>
+            </>
           ]}
       >
         <p>Description: {ticket.request_details}</p>

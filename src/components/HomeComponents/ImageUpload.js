@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import {Upload, Icon, message, Button} from 'antd';
+import {Upload, Icon, message} from 'antd';
 import { axiosWithAuth } from '../../utils/axiosWithAuth';
-import reqwest from 'reqwest';
 
 const ImageUploader = props => {
 
@@ -9,6 +8,8 @@ const ImageUploader = props => {
     const [image, setImage] = useState(null);
     const [imageUrl, setImageUrl] = useState();
     const [uploading, setUploading] = useState(false);
+
+    const id = localStorage.getItem('id');
 
     const handleImageChange = image => {
         console.log(image);
@@ -26,7 +27,7 @@ const ImageUploader = props => {
         const data = new FormData();
         data.append('file', image);
     
-            axiosWithAuth().post('https://devdeskdb.herokuapp.com/api/students/16/image', data, {
+            axiosWithAuth().post('https://devdeskdb.herokuapp.com/api/students/'+ id +'/image', data, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -38,7 +39,7 @@ const ImageUploader = props => {
       };
 
       const handleLoadImage = () => {
-            axiosWithAuth().get('https://devdeskdb.herokuapp.com/api/students/16/image', { responseType: "arraybuffer"})
+            axiosWithAuth().get('https://devdeskdb.herokuapp.com/api/students/'+ id +'/image', { responseType: "arraybuffer"})
             .then((res) => {
                 let resImage = new Buffer.from(res.data, 'binary').toString('base64');
                 setImage(resImage);

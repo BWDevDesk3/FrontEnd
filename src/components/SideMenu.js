@@ -1,12 +1,14 @@
 import React, {useState} from 'react';
 import { Layout, Menu, Icon } from 'antd';
 import { Link } from 'react-router-dom';
+import AddTicketModal from './AddTicketModal';
 
 const { Sider } = Layout;
 
 const SiderMenu = props => {
 
   const [collapsed, setCollapsed] = useState(true);
+  const [visible, setVisible] = useState(false);
 
   let index = 1;
   const setIndex = (index, e) => {
@@ -38,7 +40,13 @@ const SiderMenu = props => {
                   <Icon type="user" onClick={() => index = 4}/>
                   <Link to='/user'>User</Link>
             </Menu.Item>
-            <Menu.Item key="5" onClick={(e) => props.signOut(e)}>
+            <Menu.Item key="5" onClick={() => setVisible(true)}>
+                  <Icon type="plus" />
+                  <span>Add Ticket</span>
+            </Menu.Item>
+            {/* Ticket Adding modal */}
+            <AddTicketModal visible={visible} setVisible={setVisible}/>
+            <Menu.Item key="6" onClick={(e) => props.signOut(e)}>
                   <Icon type="logout" />
                   <span>Logout</span>
             </Menu.Item>
