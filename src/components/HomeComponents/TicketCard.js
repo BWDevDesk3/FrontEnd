@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Icon, Modal, Tag, Button } from 'antd';
+import { Card, Icon, Modal, Tag, Button, Avatar } from 'antd';
 import { categorySwitch } from './CategorySwitch';
 import { statusSwitch } from './StatusSwitch';
 import { axiosWithAuth } from '../../utils/axiosWithAuth';
@@ -11,6 +11,7 @@ const TicketCard = props => {
     const {Meta} = Card;
 
     let ticket = props.ticket;
+    let ticketCreator = ticket.creatorId || ticket.creatorid
 
     // Switch to handle category names, colors, and images
     let ticketUI = categorySwitch(ticket);
@@ -43,7 +44,7 @@ const TicketCard = props => {
             })
     }
 
-    useEffect(() =>{fetchUser(ticket.creatorId)}, [])
+    useEffect(() =>{fetchUser(ticketCreator)}, [])
 
     return (
         <div>
@@ -61,9 +62,10 @@ const TicketCard = props => {
                 <Icon type="search" onClick={e => showModal(e)}/>
             ]}>
             <Meta
+                avatar={<Avatar icon="user" />}
                 title={ticket.request_title}
                 description={creator + ' @ ' + ticket.request_date}/>
-                <p style={{paddingTop: '30px'}}>{ticket.request_details}</p>
+                <p style={{paddingTop: '30px', width: '250', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>{ticket.request_details}</p>
         </Card>
         <Modal
         title={ticket.request_title}
@@ -81,7 +83,7 @@ const TicketCard = props => {
       >
         <p>Description: {ticket.request_details}</p>
         <p>Steps Taken: {ticket.request_stepstaken}</p>
-        <p>Helper ID: {ticket.helperId ? ticket.helperId : 'Needed!'}</p>
+        <p>Helper: {ticket.helperId ? ticket.helperId : 'Needed!'}</p>
       </Modal>
       </div>
     )

@@ -3,31 +3,31 @@ export const categorySwitch = ticket => {
         case 1:
             return {
                 name: 'JS',
-                color: '#2db7f5',
+                color: '#F0DB4F',
                 image: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
             };
         case 2:
             return {
                 name: 'CSS',
-                color: '#2db7f5',
+                color: '#264de4',
                 image: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
             };
         case 3:
             return {
                 name: 'NODE',
-                color: '#2db7f5',
+                color: '#68A063',
                 image: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
             };
         case 4:
             return {
                 name: 'REACT',
-                color: '#2db7f5',
+                color: '#61dbfb',
                 image: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
             };
         case 5:
             return {
                 name: 'REDUX',
-                color: '#2db7f5',
+                color: '#764abc',
                 image: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
             };
         case 6:
@@ -39,37 +39,37 @@ export const categorySwitch = ticket => {
         case 7:
             return {
                 name: 'PYTHON',
-                color: '#2db7f5',
+                color: '#FFE873',
                 image: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
             };
         case 8:
             return {
                 name: 'GIT',
-                color: '#2db7f5',
+                color: '#F1502F',
                 image: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
             };
         case 9:
             return {
                 name: 'POSTMAN',
-                color: '#2db7f5',
+                color: '#ef5b25',
                 image: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
             };
         case 10:
             return {
                 name: 'YARN',
-                color: '#2db7f5',
+                color: '#1b9cbf',
                 image: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
             };
         case 11:
             return {
                 name: 'LIBS',
-                color: '#2db7f5',
+                color: '#CC3534',
                 image: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
             };
         case 12:
             return {
                 name: 'DEPLOY',
-                color: '#2db7f5',
+                color: '#000',
                 image: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
             };
         default:

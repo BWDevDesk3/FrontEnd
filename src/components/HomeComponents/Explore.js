@@ -15,7 +15,7 @@ const {Content} = Layout;
 const Explore = props => {
 
     const fetch = () => {
-        props.fetchUserTickets(7);
+        props.fetchUserTickets(localStorage.getItem('id'));
     }
 
     useEffect(() => {
@@ -24,7 +24,7 @@ const Explore = props => {
 
     return (
         <Content style={{ margin: '0 10px' }}>
-            <h1>Explore!</h1>
+            <h1>Explore Component</h1>
             <List grid={{gutter: 16, xs: 1, sm: 2, md: 2, lg: 3, xl: 4, xxl: 5}}
                 dataSource={props.tickets}
                 renderItem={ticket => (
@@ -32,7 +32,7 @@ const Explore = props => {
                         <TicketCard ticket={ticket}/>
                     </List.Item>
             )}>
-        </List>
+            </List>
         </Content>
     )
 }

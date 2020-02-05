@@ -46,7 +46,7 @@ export const RESOLVING_TICKET = "RESOLVING_TICKET";
 const API = 'https://devdeskdb.herokuapp.com/api/';
 
 // Testing Method
-export const homeLoaded = () => 
+export const homeLoaded = () =>
 {
     return {
         type: HOME_LOADED,
@@ -160,6 +160,7 @@ export const fetchUser = (id, helper) => {
 export const userSignOut = () =>
 {
     localStorage.setItem('token', '');
+    localStorage.setItem('id', '');
     return {
         type: LOGIN_USER,
         payload: ''
