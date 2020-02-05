@@ -31,10 +31,12 @@ const TicketCard = props => {
     setVisible(false);
   };
 
-  const assignTicket = id => {
+  const assignTicket = ticketid => {
+    const id = localStorage.getItem("id");
+    console.log("ticket", ticket, ticketid, id);
     const assignedticket = {
       creatorId: ticket.creatorId,
-      helperId: 1,
+      helperId: id,
       request_category: ticket.request_category,
       request_date: ticket.request_date,
       request_details: ticket.request_details,
@@ -43,7 +45,7 @@ const TicketCard = props => {
       resolved: ticket.resolved
     };
     const promise = axiosWithAuth().put(
-      "https://devdeskdb.herokuapp.com/api/requests/" + id,
+      "https://devdeskdb.herokuapp.com/api/requests/" + ticketid,
       assignedticket
     );
     promise
