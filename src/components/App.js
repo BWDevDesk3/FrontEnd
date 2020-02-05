@@ -24,15 +24,12 @@ const App = props =>
 
   // Need to gather user information here to address page refreshing and losing the currrent state
   useEffect(() => {
+    localStorage.setItem('helper', true);
     let token = localStorage.getItem('token');
     let id = localStorage.getItem('id');
-    if(id && token != null) {
-      if(id.length >= 1 || token.length > 1 || props.loggedIn) {
-      // This should only fire when a user is definitely signed into the application
-          console.log(token, 'token found')
-          console.log(id);
-          props.fetchUser(id, false)
-      }
+    let helper = localStorage.getItem('helper');
+    if(id && token && helper != null) {
+      props.fetchUser(id, helper)
     }
   }, [])
 
