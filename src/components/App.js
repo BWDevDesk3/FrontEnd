@@ -26,7 +26,7 @@ const App = props =>
   useEffect(() => {
     let token = localStorage.getItem('token');
     let id = localStorage.getItem('id');
-    if(id.length > 0 || token.length > 1)
+    if(id.length >= 1 || token.length > 1 || props.loggedIn)
     {
       // This should only fire when a user is definitely signed into the application
       console.log(token, 'token found')
@@ -51,7 +51,8 @@ const App = props =>
 const mapStateToProps = state => 
 {
   return {
-    token: state.token
+    token: state.token,
+    loggedIn: state.logedIn
   };
 };
 

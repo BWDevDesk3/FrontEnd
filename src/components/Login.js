@@ -51,8 +51,6 @@ const Login = props => {
       })
     }
 
-    useEffect(() => {console.log(registerHelper)}, [registerHelper])
-
     const { getFieldDecorator } = props.form;
 
     return (
