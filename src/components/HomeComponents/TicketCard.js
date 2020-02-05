@@ -56,7 +56,7 @@ const TicketCard = props => {
             let resImage = new Buffer.from(res.data, 'binary').toString('base64');
             setImage(resImage);
         })
-        .catch((err) => console.log('Error', err))
+        .catch((err) => setImage(null))
     }
 
     useEffect(() =>{fetchUser(ticketCreator); fetchUserImage(ticketCreator)}, [])
