@@ -24,7 +24,6 @@ const App = props =>
 
   // Need to gather user information here to address page refreshing and losing the currrent state
   useEffect(() => {
-    localStorage.setItem('helper', true);
     let token = localStorage.getItem('token');
     let id = localStorage.getItem('id');
     let helper = localStorage.getItem('helper');

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 // Redux Connect
 import {connect} from 'react-redux';
 // Actions
-import {fetchUserTickets} from '../../actions/actions';
+import {fetchUserTickets, deleteTicket} from '../../actions/actions';
 import { Card, Icon, Modal, Tag, Button, Avatar, message } from 'antd';
 import { categorySwitch } from './CategorySwitch';
 import { statusSwitch } from './StatusSwitch';
@@ -11,13 +11,14 @@ import { axiosWithAuth } from '../../utils/axiosWithAuth';
 const TicketCard = props => {
 
     const [visible, setVisible] = useState();
+    const [helper, setHelper] = useState(localStorage.getItem('helper'))
+    const [text, setText] = useState('Delete');
 
     const {Meta} = Card;
 
     let ticket = props.ticket;
     let ticketCreator = ticket.creatorId || ticket.creatorid
     let id = localStorage.getItem('id');
-    let helper = localStorage.getItem('helper');
     let date = new Date(ticket.request_date).toLocaleDateString();
 
     const owner = id == ticketCreator;
@@ -26,30 +27,26 @@ const TicketCard = props => {
     let ticketUI = categorySwitch(ticket);
     // Switch to handle ticket resolved status
     let ticketStatus = statusSwitch(ticket);
-
+    
+    let buttonText = helper ? 'Assign' : 'Delete';
     const [creator, setCreator] = useState();
     const [image, setImage] = useState(null);
 
     const showModal = e => {
+        console.log(helper)
         setVisible(true);
     }
 
     const hideModal = e => {
+        console.log(helper)
         setVisible(false);
     }
 
     const assignTicket = ticketid => {
         const id = localStorage.getItem("id");
-        console.log("ticket", ticket, ticketid, id);
         const assignedticket = {
-          creatorId: ticket.creatorId,
-          helperId: id,
-          request_category: ticket.request_category,
-          request_date: ticket.request_date,
-          request_details: ticket.request_details,
-          request_stepstaken: ticket.request_stepstaken,
-          request_title: ticket.request_title,
-          resolved: ticket.resolved
+          ...ticket,
+          helperId: id
         };
         const promise = axiosWithAuth().put(
           "https://devdeskdb.herokuapp.com/api/requests/" + ticketid,
@@ -86,7 +83,7 @@ const TicketCard = props => {
         .catch((err) => setImage(null))
     }
 
-    useEffect(() =>{fetchUser(ticketCreator); fetchUserImage(ticketCreator);}, [])
+    useEffect(() =>{fetchUser(ticketCreator); fetchUserImage(ticketCreator); setText(helper ? 'Assign' : 'Delete')}, [])
 
     return (
         <div>
@@ -115,14 +112,9 @@ const TicketCard = props => {
         onOk={hideModal}
         onCancel={hideModal}
         footer={[
-            owner || helper ?
             <>
             <Button key="back" onClick={hideModal}>Close</Button>
-            <Button type="primary" onClick={e => helper ? assignTicket(ticket.id) : console.log('Delete')}>{helper ? 'Assign' : 'Delete'}</Button>
-            </>
-            :
-            <>
-            <Button key="back" type='primary' onClick={hideModal}>Close</Button>
+            <Button type="primary" onClick={e => helper ? assignTicket(ticket.id) : props.deleteTicket(ticket.id)}>{text}</Button>\
             </>
           ]}
       >
@@ -142,4 +134,4 @@ const mapStateToProps = state =>
   };
 };
 
-export default connect(mapStateToProps, {fetchUserTickets})(TicketCard)
+export default connect(mapStateToProps, {fetchUserTickets, deleteTicket})(TicketCard)
