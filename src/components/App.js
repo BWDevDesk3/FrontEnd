@@ -27,14 +27,12 @@ const App = props =>
     let token = localStorage.getItem('token');
     let id = localStorage.getItem('id');
     if(id && token != null) {
-      if(id.length >= 1 || token.length > 1 || props.loggedIn)
-    {
+      if(id.length >= 1 || token.length > 1 || props.loggedIn) {
       // This should only fire when a user is definitely signed into the application
-      console.log(token, 'token found')
-      console.log(id);
-      props.fetchUser(id, false)
-    }else{
-      console.log('No sign of a user here')}
+          console.log(token, 'token found')
+          console.log(id);
+          props.fetchUser(id, false)
+      }
     }
   }, [])
 
