@@ -46,7 +46,7 @@ export const RESOLVING_TICKET = "RESOLVING_TICKET";
 const API = 'https://devdeskdb.herokuapp.com/api/';
 
 // Testing Method
-export const homeLoaded = () => 
+export const homeLoaded = () =>
 {
     return {
         type: HOME_LOADED,
@@ -106,6 +106,9 @@ export const userSignIn = (user, helper) => dispatch => {
                 console.log('ID: ' + res.data.studentid)
                 localStorage.setItem('token', '');
                 localStorage.setItem('token', res.data.token);
+                localStorage.setItem('id', '');
+                // This may need to be changed when helper id is implemented into BE
+                localStorage.setItem('id', helper ? res.data.helperid : res.data.studentid)
                 dispatch(loginUserSuccess(res.data.token, res.data.studentid));
                 if(helper){dispatch(loginUserHerlper(true))}
                 resolve();
@@ -133,10 +136,31 @@ export const loginUserError = error => ({
     payload: error
 })
 
+export const fetchUser = (id, helper) => {
+
+    let route = helper ? 'helpers/' : 'students/';
+
+    const promise = axiosWithAuth().get(API + route + id);
+
+    return dispatch => {
+        promise
+        .then((res) => {
+            dispatch({type: LOGIN_USER, payload: localStorage.getItem('token')});
+            dispatch({type: SIGNUP_USER, payload: res.data.username});
+            dispatch({ type: SET_USER_ID, payload: res.data.studentid});
+            if(res.data.helperid){dispatch({type: IS_HELPER, payload: true})}
+        })
+        .catch((err) => {
+            dispatch({type: LOGIN_USER_ERROR, payload: err.response.data.message});
+        })
+    };
+}
+
 // Signout Method for User's
 export const userSignOut = () =>
 {
     localStorage.setItem('token', '');
+    localStorage.setItem('id', '');
     return {
         type: LOGIN_USER,
         payload: ''
@@ -198,15 +222,19 @@ export const fetchTickets = () =>
 export const fetchUserTickets = id => 
 {
     const promise = axiosWithAuth().get('https://devdeskdb.herokuapp.com/api/students/' + id + '/requests');
-
+console.log('USER')
     return dispatch => {
+        dispatch({type: FETCHING_TICKETS});
         promise
         .then((res) => {
+            console.log(res);
             dispatch({type: CLEAR_TICKETS})
-            dispatch({type: FETCH_USER_TICKETS, payload: res.data});
+            dispatch({type: FETCH_TICKETS, payload: res.data});
+            dispatch({type: FETCHING_TICKETS});
         })
         .catch((err) => {
-            dispatch({type: FETCH_USER_TICKETS_ERROR, payload: err});
+            dispatch({type: FETCH_TICKETS_ERROR, payload: err});
+            dispatch({type: FETCHING_TICKETS});
         })
     };
 };

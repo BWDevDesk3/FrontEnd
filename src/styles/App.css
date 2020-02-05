@@ -12,3 +12,8 @@
 .login-form-button {
   width: 100%;
 }
+
+.avatar-uploader > .ant-upload {
+  width: 248px;
+  height: 248px;
+}

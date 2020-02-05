@@ -23,12 +23,19 @@ const Base = props => {
     }, [])
 
     return (
-        
-        <Content style={{ margin: '0 10px' }}>
-            <List grid={{gutter: 16, xs: 1, sm: 2, md: 2, lg: 3, xl: 4, xxl: 5}}
+        <Content >
+            <List grid={{gutter: 10, xs: 1, sm: 2, md: 2, lg: 3, xl: 4, xxl: 5}}
+            size="large"
+            pagination={{
+                onChange: page => {
+                  console.log(page);
+                },
+                pageSize: 12,
+                style: {textAlign: 'center'}
+              }}
                 dataSource={props.tickets}
                 renderItem={ticket => (
-                    <List.Item>
+                    <List.Item style={{margin: '10px'}}>
                         <TicketCard ticket={ticket}/>
                     </List.Item>
             )}>

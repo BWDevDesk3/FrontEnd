@@ -6,7 +6,7 @@ import {withRouter} from 'react-router-dom';
 // Actions
 import {fetchTickets, userSignOut} from '../actions/actions';
 // Ant Design
-import { Layout} from 'antd';
+import { Layout } from 'antd';
 // Components
 import SideMenu from './SideMenu';
 
