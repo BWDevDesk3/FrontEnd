@@ -26,7 +26,8 @@ const App = props =>
   useEffect(() => {
     let token = localStorage.getItem('token');
     let id = localStorage.getItem('id');
-    if(id.length >= 1 || token.length > 1 || props.loggedIn)
+    if(id && token != null) {
+      if(id.length >= 1 || token.length > 1 || props.loggedIn)
     {
       // This should only fire when a user is definitely signed into the application
       console.log(token, 'token found')
@@ -34,6 +35,7 @@ const App = props =>
       props.fetchUser(id, false)
     }else{
       console.log('No sign of a user here')}
+    }
   }, [])
 
   return (
