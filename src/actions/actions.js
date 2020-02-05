@@ -164,17 +164,11 @@ export const fetchUser = (id, helper) => {
             dispatch({type: LOGIN_USER, payload: localStorage.getItem('token')});
             dispatch({type: SIGNUP_USER, payload: res.data.username});
             dispatch({ type: SET_USER_ID, payload: userID});
-            if(res.data.helperid){localStorage.setItem('helper', true); dispatch({type: IS_HELPER, payload: true})
-            }
-            // Temporary fix until 500 Helper error os solved
-            localStorage.setItem('helper', true);
-            dispatch({type: IS_HELPER, payload: true})
+            if(res.data.helperid){localStorage.setItem('helper', true); dispatch({type: IS_HELPER, payload: true})}
+           
         })
         .catch((err) => {
             dispatch({type: LOGIN_USER_ERROR, payload: err.response.data.message});
-            // Temporary fix until 500 Helper error os solved
-            localStorage.setItem('helper', true);
-            dispatch({type: IS_HELPER, payload: true})
         })
     };
 }
