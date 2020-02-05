@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from 'react';
+// Redux Connect
+import {connect} from 'react-redux';
+// Actions
+import {fetchUserTickets} from '../../actions/actions';
 import { Card, Icon, Modal, Tag, Button, Avatar } from 'antd';
 import { categorySwitch } from './CategorySwitch';
 import { statusSwitch } from './StatusSwitch';
@@ -13,6 +17,8 @@ const TicketCard = props => {
     let ticket = props.ticket;
     let ticketCreator = ticket.creatorId || ticket.creatorid
     let id = localStorage.getItem('id');
+    let helper = localStorage.getItem('helper');
+    let date = new Date(ticket.request_date).toLocaleDateString();
 
     const owner = id == ticketCreator;
 
@@ -56,10 +62,10 @@ const TicketCard = props => {
             let resImage = new Buffer.from(res.data, 'binary').toString('base64');
             setImage(resImage);
         })
-        .catch((err) => console.log('Error', err))
+        .catch((err) => setImage(null))
     }
 
-    useEffect(() =>{fetchUser(ticketCreator); fetchUserImage(ticketCreator)}, [])
+    useEffect(() =>{fetchUser(ticketCreator); fetchUserImage(ticketCreator);}, [])
 
     return (
         <div>
@@ -79,7 +85,7 @@ const TicketCard = props => {
             <Meta
                 avatar={<Avatar src={'data:image/png;base64, ' + image} />}
                 title={ticket.request_title}
-                description={creator + ' @ ' + ticket.request_date}/>
+                description={creator + ' @ ' + date}/>
                 <p style={{paddingTop: '30px', width: '250', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>{ticket.request_details}</p>
         </Card>
         <Modal
@@ -106,4 +112,13 @@ const TicketCard = props => {
       </div>
     )
 }
-export default TicketCard;
+
+const mapStateToProps = state => 
+{
+  return {
+    tickets: state.tickets,
+    isHelper: state.isHelper
+  };
+};
+
+export default connect(mapStateToProps, {fetchUserTickets})(TicketCard)

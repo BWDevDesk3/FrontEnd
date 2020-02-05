@@ -45,7 +45,7 @@ const Explore = props => {
     useEffect(() => {
         fetch();
         filter();
-    }, [])
+    }, [language])
 
     return (
         <Content style={{ margin: '0 10px' }}>

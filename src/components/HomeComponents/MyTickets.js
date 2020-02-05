@@ -27,9 +27,9 @@ const MyTickets = props => {
             <h4>My Tickets</h4>
             <List grid={{gutter: 16, xs: 1, sm: 2, md: 2, lg: 3, xl: 4, xxl: 5}}
                 dataSource={props.tickets}
-                renderItem={ticket => (
+                renderItem={(ticket, index) => (
                     <List.Item>
-                        <TicketCard ticket={ticket}/>
+                        <TicketCard ticket={ticket} key={index}/>
                     </List.Item>
             )}>
             </List>
