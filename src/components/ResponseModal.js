@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
-import { Modal, Form, Input, Select } from 'antd';
+import { Modal, Form, Input, message } from 'antd';
+// AxisWithAUth
+import {axiosWithAuth} from '../utils/axiosWithAuth';
 // Redux Connect
 import {connect} from 'react-redux';
 // Actions
@@ -9,44 +11,38 @@ const ResponseModal = props => {
 
     const { getFieldDecorator } = props.form;
     const { size } = props;
-    const { Option } = Select;
 
     const ticket = props.ticket;
+    const userEmail = props.email;
 
-    const [value, setValue] = useState('1');
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [steps, setSteps] = useState('');
+    const [subject, setSubject] = useState('');
+    const [text, setText] = useState('');
 
-    // let ticket = {
-    //     request_category: value,
-    //     request_date: Date.now(),
-    //     request_title: title,
-    //     request_details: description,
-    //     request_stepstaken: steps,
-    //     creatorId: localStorage.getItem('id')
-    // }
 
-    const handleTitleChange = e => {
-        setTitle(e.target.value)
-      };
 
-      const handleDescriptionChange = e => {
-        setDescription(e.target.value)
-      };
+    const handleSubjectChange = e => {
+      setSubject(e.target.value)
+    };
 
-      const handleStepsChange = e => {
-        setSteps(e.target.value)
-      };
-    
-    const handleLanguageChange = language => {
-        setValue(language);
-      };
+    const handleTextChange = e => {
+      setText(e.target.value)
+    };
 
-      const handleSubmit = () => {
-        //   console.log(ticket);
-        //   props.addTicket(ticket);
-          props.setVisible(false);
+    const handleSubmit = () => {
+      let emailToSend ={
+        to: userEmail != null ? userEmail : '',
+        from: 'Helper@DevDesk.com',
+        subject: subject,
+        text: text
+      }
+      const promise = axiosWithAuth().post(
+        "https://devdeskdb.herokuapp.com/api/requests/" + ticket.id + '/email',
+        emailToSend
+      );
+
+      promise
+        .then((res) => {props.setVisible(false); message.success('Success')})
+        .catch((err) => {console.log(err); message.error('Error assigning ticket!')})
     };
 
     return (
@@ -58,34 +54,24 @@ const ResponseModal = props => {
           onCancel={() => props.setVisible(false)}
         >
           <Form layout="vertical" onSubmit={handleSubmit}>
-            <Form.Item label="Subject">
-              {getFieldDecorator('title', {
-                rules: [{ required: true, message: 'Please input the title and category of ticket!' }],
+            <Form.Item label="Subject:">
+              {getFieldDecorator('email', {
+                rules: [{ required: true, message: 'Please input the subject of the message!' }],
               })(
                 <Input
-                  type="text"
+                  type="email"
                   size={size}
-                  value={title}
-                  onChange={handleTitleChange}
+                  value={subject}
+                  onChange={handleSubjectChange}
                 />
               )}
             </Form.Item>
             <Form.Item label="Body">
               {getFieldDecorator('description', {
                 rules: [{ required: true, message: 'Please input the description of the solution!' }],
-              })(<Input type="textarea" onChange={handleDescriptionChange}/>)}
+              })(<Input type="textarea" onChange={handleTextChange}/>)}
             </Form.Item>
           </Form>
-          {/*
-request_category: 1
-request_date: "01/01/2020"
-request_title: "Request 1"
-request_details: "Forget Houston, I have Problems!"
-request_stepstaken: "As few as possible while still achieving the same goal."
-creatorId: 1
-helperId: ""
-resolved: 0
-__proto__: Object */}
         </Modal>
     )
 }

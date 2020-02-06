@@ -31,8 +31,8 @@ const TicketCard = props => {
     // Switch to handle ticket resolved status
     let ticketStatus = statusSwitch(ticket);
     
-    let buttonText = helper ? 'Assign' : 'Delete';
     const [creator, setCreator] = useState();
+    const [userEmail, setEmail] = useState();
     const [image, setImage] = useState(null);
 
     const showModal = e => {
@@ -76,7 +76,9 @@ const TicketCard = props => {
 
         promise
             .then((res) => {
-                setCreator(res.data.username);
+              console.log(res.data)
+              setEmail(res.data.email);
+              setCreator(res.data.username);
             })
             .catch((err) => {
                 console.log(err);
@@ -125,8 +127,8 @@ const TicketCard = props => {
         footer={[
             <>
             <Button key="back" onClick={hideModal}>Close</Button>
-            {helper ? <Button onClick={e => props.deleteTicket(ticket)}>Delete</Button> : <></>}
-            <Button type="primary" onClick={e => helper ? assignTicket(ticket.id) : props.deleteTicket(ticket)}>{helper ? 'Assign' : 'Delete'}</Button>
+            {helper ? <Button onClick={e => {props.deleteTicket(ticket); hideModal(e)}}>Delete</Button> : <></>}
+            {helper ? <Button type="primary" onClick={e => props.assignTicket(ticket)}>Assign</Button> : <></>}
             {helper ? <Button type="primary" onClick={e => showResModal(e)}>Send Response!</Button> : <></>}
             </>
           ]}
@@ -135,7 +137,7 @@ const TicketCard = props => {
         <p>Steps Taken: {ticket.request_stepstaken}</p>
         <p>Helper: {ticket.helperId ? ticket.helperId : 'Needed!'}</p>
       </Modal>
-      <ResponseModal visible={resVisible} setVisible={setResVisible} ticket={ticket}/>
+      <ResponseModal visible={resVisible} setVisible={setResVisible} ticket={ticket} email={userEmail}/>
       </div>
     )
 }

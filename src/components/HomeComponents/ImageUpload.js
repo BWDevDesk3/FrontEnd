@@ -6,7 +6,6 @@ const ImageUploader = props => {
 
     const [localImage, setLocalImage] = useState();
     const [image, setImage] = useState(null);
-    const [imageUrl, setImageUrl] = useState();
     const [uploading, setUploading] = useState(false);
 
     const id = localStorage.getItem('id');

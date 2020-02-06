@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { Layout, Menu, Icon } from 'antd';
 import { Link } from 'react-router-dom';
 import AddTicketModal from './AddTicketModal';
+import UserEditModal from './UserEditModal';
 
 const { Sider } = Layout;
 
@@ -9,6 +10,9 @@ const SiderMenu = props => {
 
   const [collapsed, setCollapsed] = useState(true);
   const [visible, setVisible] = useState(false);
+  const [userVisible, setUserVisible] = useState(false);
+
+  const helper = (localStorage.getItem('helper') === 'true'); 
 
   let index = 1;
   const setIndex = (index, e) => {
@@ -36,15 +40,16 @@ const SiderMenu = props => {
               <Icon type="snippets" onClick={() => index = 3}/>
               <Link to='/tickets'>My Tickets</Link>
             </Menu.Item>
-            <Menu.Item key="4" onClick={() => index = 4}>
-                  <Icon type="user" onClick={() => index = 4}/>
-                  <Link to='/user'>User</Link>
+            <Menu.Item key="4" onClick={() => setUserVisible(true)}>
+                  <Icon type="user"/>
+                  <span>Edit Account</span>
             </Menu.Item>
-            <Menu.Item key="5" onClick={() => setVisible(true)}>
+            {helper ? <></> :<Menu.Item key="5" onClick={() => setVisible(true)}>
                   <Icon type="plus" />
                   <span>Add Ticket</span>
             </Menu.Item>
-            {/* Ticket Adding modal */}
+            }
+            <UserEditModal visible={userVisible} setVisible={setUserVisible}/>
             <AddTicketModal visible={visible} setVisible={setVisible}/>
             <Menu.Item key="6" onClick={(e) => props.signOut(e)}>
                   <Icon type="logout" />
