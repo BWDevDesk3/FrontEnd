@@ -22,6 +22,7 @@ const SignUp = props => {
             console.log('Received values of form: ', values);
           } else {
           let user = {
+            email: values.email,
             username: values.username,
             password: values.password
           };
