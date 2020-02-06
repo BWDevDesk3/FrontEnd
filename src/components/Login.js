@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 // Redux Connect
 import {connect} from 'react-redux';
 // Router Link

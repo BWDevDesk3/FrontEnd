@@ -23,17 +23,16 @@ const Explore = props => {
 
     const [language, setLanguage] = useState('Javascript');
     const [langNum ,setLangNum] = useState(1);
-    const [status, setStatus] = useState('OPEN');
     const [tickets, setTickets] = useState(props.tickets)
 
-    const handleLanguageChange = lang => {setLanguage(lang); console.log(lang); setLangNum(parseInt(lang)); filter(parseInt(lang)); console.log('lang', language); console.log('num', langNum)}
-    const handleStatusChange = status => {setStatus(status)}
+    const handleLanguageChange = lang => {setLanguage(lang); console.log(lang); setLangNum(parseInt(lang)); filter(); console.log('lang', language); console.log('num', langNum)}
+  
 
     let refinedTickets = []
 
-    const filter = num => {
-        props.tickets.map(ticket => {
-            if(ticket.request_category == langNum) {            
+    const filter = () => {
+        props.tickets.map((ticket) => {
+            if(ticket.request_category === langNum) {            
                 console.log(ticket);
                 refinedTickets.push(ticket);
                 setTickets(refinedTickets);

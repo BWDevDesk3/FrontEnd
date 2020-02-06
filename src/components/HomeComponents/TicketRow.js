@@ -3,34 +3,30 @@ import React, { useState, useEffect } from 'react';
 import {connect} from 'react-redux';
 // Actions
 import {fetchUserTickets, deleteTicket} from '../../actions/actions';
-import { Card, Icon, Modal, Tag, Button, Avatar, message, List } from 'antd';
+import { Icon, Modal, Tag, Button, Avatar, message, List } from 'antd';
 import { categorySwitch } from './CategorySwitch';
 import { statusSwitch } from './StatusSwitch';
+import ResponseModal from '../ResponseModal';
 import { axiosWithAuth } from '../../utils/axiosWithAuth';
 
 const TicketCard = props => {
 
     const [visible, setVisible] = useState();
+    const [resVisible, setResVisible] = useState();
     const helper = (localStorage.getItem('helper') === 'true');
-    const [text, setText] = useState('Delete');
-
-    const {Meta} = Card;
 
     let ticket = props.ticket;
     let ticketCreator = ticket.creatorId || ticket.creatorid
-    let id = localStorage.getItem('id');
-    let date = new Date(ticket.request_date).toLocaleDateString();
 
-    const owner = id == ticketCreator;
 
     // Switch to handle category names, colors, and images
     let ticketUI = categorySwitch(ticket);
     // Switch to handle ticket resolved status
     let ticketStatus = statusSwitch(ticket);
     
-    let buttonText = helper ? 'Assign' : 'Delete';
     const [creator, setCreator] = useState();
     const [image, setImage] = useState(null);
+    const [userEmail, setEmail] = useState();
 
     const showModal = e => {
         console.log(helper)
@@ -66,6 +62,7 @@ const TicketCard = props => {
         promise
             .then((res) => {
                 setCreator(res.data.username);
+                setEmail(res.data.email)
             })
             .catch((err) => {
                 console.log(err);
@@ -82,6 +79,10 @@ const TicketCard = props => {
         })
         .catch((err) => setImage(null))
     }
+
+    const showResModal = e => {
+      setResVisible(true);
+  }
 
     useEffect(() =>{fetchUser(ticketCreator); fetchUserImage(ticketCreator);}, [])
 
@@ -115,7 +116,9 @@ const TicketCard = props => {
         footer={[
             <>
             <Button key="back" onClick={hideModal}>Close</Button>
-            <Button type="primary" onClick={e => helper ? assignTicket(ticket.id) : props.deleteTicket(ticket.id)}>{helper ? 'Assign' : 'Delete'}</Button>\
+            {helper ? <Button key="delete" onClick={e => {props.deleteTicket(ticket); hideModal()}}>Delete</Button> : <></>}
+            {helper ? <Button key="assign" type="primary" onClick={e => assignTicket(ticket.id)}>Assign</Button> : <></>}
+            {helper ? <Button key="show" type="primary" onClick={e => showResModal(e)}>Send Response!</Button> : <></>}
             </>
           ]}
       >
@@ -123,6 +126,7 @@ const TicketCard = props => {
         <p>Steps Taken: {ticket.request_stepstaken}</p>
         <p>Helper: {ticket.helperId ? ticket.helperId : 'Needed!'}</p>
       </Modal>
+      <ResponseModal visible={resVisible} setVisible={setResVisible} ticket={ticket} email={userEmail}/>
       </div>
     )
 }

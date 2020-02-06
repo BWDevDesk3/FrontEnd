@@ -14,17 +14,12 @@ const TicketCard = props => {
     const [visible, setVisible] = useState();
     const [resVisible, setResVisible] = useState();
     const helper = (localStorage.getItem('helper') === 'true');
-    const [text, setText] = useState('Delete');
 
     const {Meta} = Card;
 
     let ticket = props.ticket;
-    console.log(ticket);
     let ticketCreator = ticket.creatorId || ticket.creatorid
-    let id = localStorage.getItem('id');
     let date = new Date(ticket.request_date).toLocaleDateString();
-
-    const owner = id == ticketCreator;
 
     // Switch to handle category names, colors, and images
     let ticketUI = categorySwitch(ticket);
@@ -36,12 +31,10 @@ const TicketCard = props => {
     const [image, setImage] = useState(null);
 
     const showModal = e => {
-        console.log(helper)
         setVisible(true);
     }
 
     const hideModal = e => {
-        console.log(helper)
         setVisible(false);
     }
 
@@ -49,34 +42,11 @@ const TicketCard = props => {
       setResVisible(true);
   }
 
-  const hideResModal = e => {
-      setResVisible(false);
-  }
-
-    const assignTicket = ticketid => {
-        const id = localStorage.getItem("id");
-        const assignedticket = {
-          ...ticket,
-          helperId: id
-        };
-        const promise = axiosWithAuth().put(
-          "https://devdeskdb.herokuapp.com/api/requests/" + ticketid,
-          assignedticket
-        );
-        promise
-          .then(res => {hideModal(); ticket.helperId = id; message.success('Success')})
-          .catch(err => {
-            console.log(err);
-            message.error('Error assigning ticket!')
-          });
-      };
-
     const fetchUser = id => {
         const promise = axiosWithAuth().get('https://devdeskdb.herokuapp.com/api/students/' + id);
 
         promise
             .then((res) => {
-              console.log(res.data)
               setEmail(res.data.email);
               setCreator(res.data.username);
             })
@@ -84,6 +54,24 @@ const TicketCard = props => {
                 console.log(err);
             })
     }
+
+    const assignTicket = ticketid => {
+      const id = localStorage.getItem("id");
+      const assignedticket = {
+        ...ticket,
+        helperId: id
+      };
+      const promise = axiosWithAuth().put(
+        "https://devdeskdb.herokuapp.com/api/requests/" + ticketid,
+        assignedticket
+      );
+      promise
+        .then(res => {hideModal(); ticket.helperId = id; message.success('Success')})
+        .catch(err => {
+          console.log(err);
+          message.error('Error assigning ticket!')
+        });
+    };
 
     const fetchUserImage = id => {
         const promise = axiosWithAuth().get('https://devdeskdb.herokuapp.com/api/students/'+ id + '/image', { responseType: "arraybuffer"})
@@ -127,9 +115,9 @@ const TicketCard = props => {
         footer={[
             <>
             <Button key="back" onClick={hideModal}>Close</Button>
-            {helper ? <Button onClick={e => {props.deleteTicket(ticket); hideModal(e)}}>Delete</Button> : <></>}
-            {helper ? <Button type="primary" onClick={e => props.assignTicket(ticket)}>Assign</Button> : <></>}
-            {helper ? <Button type="primary" onClick={e => showResModal(e)}>Send Response!</Button> : <></>}
+            {helper ? <Button key="delete" onClick={e => {props.deleteTicket(ticket); hideModal(e)}}>Delete</Button> : <></>}
+            {helper ? <Button key="assign" type="primary" onClick={e => assignTicket(ticket.id)}>Assign</Button> : <></>}
+            {helper ? <Button key="show" type="primary" onClick={e => showResModal(e)}>Send Response!</Button> : <></>}
             </>
           ]}
       >

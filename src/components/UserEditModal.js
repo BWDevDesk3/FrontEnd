@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { Modal, Form, Input, message } from 'antd';
 // Redux Connect
 import {connect} from 'react-redux';
@@ -8,22 +8,18 @@ import ImageUploader from './HomeComponents/ImageUpload';
 
 const ResponseModal = props => {
 
-    const [email, setEmail] = useState('');
-    const [name, setName] = useState('');
+    // const [email, setEmail] = useState('');
+    // const [name, setName] = useState('');
 
-    const handleEmailChange = e => {
-        setEmail(e.target.value)
-      };
+    // const handleEmailChange = e => {
+    //     setEmail(e.target.value)
+    //   };
 
-      const handleNameChange = e => {
-        setName(e.target.value)
-      };
+    //   const handleNameChange = e => {
+    //     setName(e.target.value)
+    //   };
 
       const handleSubmit = () => {
-        let user = {
-          username: name,
-          email: email
-        }
         message.success('Success updating account!')
           props.setVisible(false);
     };
@@ -39,10 +35,10 @@ const ResponseModal = props => {
             <ImageUploader/>
           <Form layout="vertical" onSubmit={handleSubmit}>
             <Form.Item label="Email Address:">
-              <Input type="email" onChange={handleEmailChange}/>
+              <Input type="email"/>
             </Form.Item>
             <Form.Item label="Username: ">
-              <Input type="textarea" onChange={handleNameChange}/>
+              <Input type="textarea"/>
             </Form.Item>
           </Form>
         </Modal>

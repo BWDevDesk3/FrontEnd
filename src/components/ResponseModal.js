@@ -10,7 +10,6 @@ import {addTicket, fetchUserTickets} from '../actions/actions';
 const ResponseModal = props => {
 
     const { getFieldDecorator } = props.form;
-    const { size } = props;
 
     const ticket = props.ticket;
     const userEmail = props.email;
@@ -41,7 +40,7 @@ const ResponseModal = props => {
       );
 
       promise
-        .then((res) => {props.setVisible(false); message.success('Success')})
+        .then((res) => {props.setVisible(false); message.success('Success'); setText(''); setSubject('')})
         .catch((err) => {console.log(err); message.error('Error assigning ticket!')})
     };
 
@@ -60,8 +59,6 @@ const ResponseModal = props => {
               })(
                 <Input
                   type="email"
-                  size={size}
-                  value={subject}
                   onChange={handleSubjectChange}
                 />
               )}
