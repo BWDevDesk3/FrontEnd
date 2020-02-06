@@ -28,7 +28,7 @@ const Base = props => {
 
     useEffect(() => {
         fetch();
-    }, [])
+    }, [props.tickets])
 
     return (
         <Content >
