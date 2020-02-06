@@ -17,6 +17,7 @@ const TicketCard = props => {
     const {Meta} = Card;
 
     let ticket = props.ticket;
+    console.log(ticket);
     let ticketCreator = ticket.creatorId || ticket.creatorid
     let id = localStorage.getItem('id');
     let date = new Date(ticket.request_date).toLocaleDateString();
