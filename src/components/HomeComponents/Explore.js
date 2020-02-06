@@ -6,10 +6,9 @@ import {withRouter} from 'react-router-dom';
 // Actions
 import {fetchTickets} from '../../actions/actions';
 // Ant Design
-import {Layout, List, Form, Input, Select} from 'antd';
+import {Layout, List, Form, Select, PageHeader} from 'antd';
 // Components
 import TicketCard from './TicketCard';
-import { fileToObject } from "antd/lib/upload/utils";
 
 const {Content} = Layout;
 
@@ -49,19 +48,16 @@ const Explore = props => {
 
     return (
         <Content style={{ margin: '0 10px' }}>
-            {/* Add A Inputs for filtering results */}
+          <PageHeader
+            style={{
+              border: '1px solid rgb(235, 237, 240)',
+            }}
+            title="Explore"
+            subTitle="Find specific tickets here!"
+          />
             <Form>
             <Form.Item label="Select Language">
               <span>
-              {/* <Select
-                  value={status}
-                  size={size}
-                  style={{ width: '25%' }}
-                  onChange={handleStatusChange}
-                >
-                  <Option value="0">OPEN</Option>
-                  <Option value="1">CLOSED</Option>
-                </Select> */}
                 <Select
                   value={language}
                   size={size}

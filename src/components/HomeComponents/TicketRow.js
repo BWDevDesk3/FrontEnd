@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import {connect} from 'react-redux';
 // Actions
 import {fetchUserTickets, deleteTicket} from '../../actions/actions';
-import { Card, Icon, Modal, Tag, Button, Avatar, message } from 'antd';
+import { Card, Icon, Modal, Tag, Button, Avatar, message, List } from 'antd';
 import { categorySwitch } from './CategorySwitch';
 import { statusSwitch } from './StatusSwitch';
 import { axiosWithAuth } from '../../utils/axiosWithAuth';
@@ -87,25 +87,26 @@ const TicketCard = props => {
 
     return (
         <div>
-        <Card
-            style={{ width: '300px', height: '386px'}}
-            cover={
-                <img
-                    alt={ticketUI.name}
-                    src={ticketUI.image}
+
+            <List.Item style={{backgroundColor: 'white', margin: '10px'}}
+            actions={[<Tag color={ticketStatus.color}>{ticketStatus.status}</Tag>,
+            <Tag color={ticketUI.color}>{ticketUI.name}</Tag>,
+            <Icon type="search" onClick={e => showModal(e)}/>]}
+            extra={
+              <img
+                  height={100}
+                  alt={ticketUI.name}
+                  src={ticketUI.image}
                 />
-            }
-            actions={[
-                <Tag color={ticketStatus.color}>{ticketStatus.status}</Tag>,
-                <Tag color={ticketUI.color}>{ticketUI.name}</Tag>,
-                <Icon type="search" onClick={e => showModal(e)}/>
-            ]}>
-            <Meta
-                avatar={<Avatar src={'data:image/png;base64, ' + image} />}
+              }
+            >
+            <List.Item.Meta
+                avatar={
+                  <Avatar style={{marginLeft: '20px'}} shape='square' src={'data:image/png;base64, ' + image} />
+                }
                 title={ticket.request_title}
-                description={creator + ' @ ' + date}/>
-                <p style={{paddingTop: '30px', width: '250', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>{ticket.request_details}</p>
-        </Card>
+                description={ticket.request_details}/>
+            </List.Item>
         <Modal
         title={ticket.request_title}
         visible={visible}

@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 // Redux Connect
 import {connect} from 'react-redux';
 // Router
@@ -6,16 +6,24 @@ import {withRouter} from 'react-router-dom';
 // Actions
 import {fetchTickets} from '../../actions/actions';
 // Ant Design
-import {Layout, List} from 'antd';
+import {Layout, List, Radio, Icon, PageHeader} from 'antd';
 // Components
 import TicketCard from './TicketCard';
+import TicketRow from "./TicketRow";
 
 const {Content} = Layout;
 
 const Base = props => {
 
+  const [layout, setLayout] = useState('vertical');
+
     const fetch = () => {
         props.fetchTickets();
+    }
+
+    const handleChange = e => {
+      setLayout(e.target.value)
+      console.log(e.target.value)
     }
 
     useEffect(() => {
@@ -24,6 +32,18 @@ const Base = props => {
 
     return (
         <Content >
+          <PageHeader
+            style={{
+              border: '1px solid rgb(235, 237, 240)',
+            }}
+            title="Home"
+            subTitle="View all tickets here!"
+            extra={[<Radio.Group defaultValue="vertical" buttonStyle="solid" onChange={handleChange}>
+            <Radio.Button value="vertical"><Icon type="table" /></Radio.Button>
+            <Radio.Button value="horizontal"><Icon type="menu" /></Radio.Button>
+            </Radio.Group>]}
+          />
+          {layout === 'vertical' ?
             <List grid={{gutter: 10, xs: 1, sm: 2, md: 2, lg: 3, xl: 4, xxl: 5}}
             size="large"
             pagination={{
@@ -40,6 +60,26 @@ const Base = props => {
                     </List.Item>
             )}>
         </List>
+        : 
+        <List
+        style={{minHeight: '320px'}}
+            size="large"
+            layout="horizontal"
+            pagination={{
+                onChange: page => {
+                  console.log(page);
+                },
+                pageSize: 12,
+                style: {textAlign: 'center'}
+              }}
+                dataSource={props.tickets}
+                renderItem={ticket => (
+                    // <List.Item style={{margin: '10px'}}>
+                        <TicketRow ticket={ticket}/>
+                    // </List.Item>
+            )}>
+        </List>
+        }
         </Content>
     )
 }

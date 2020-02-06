@@ -100,6 +100,7 @@ export const userSignIn = (user, helper) => dispatch => {
     let route = helper ? 'helpers' : 'students';
     console.log(route);
     console.log(helper);
+    localStorage.setItem('helper', helper ? true : false);
 
     return new Promise((resolve, reject) => {
         axios.post(API + 'auth/'+ route + '/login', user)
@@ -108,7 +109,6 @@ export const userSignIn = (user, helper) => dispatch => {
                 localStorage.setItem('token', res.data.token);
                 localStorage.setItem('id', '');
                 localStorage.setItem('id', helper ? res.data.helperid : res.data.studentid);
-                localStorage.setItem('helper', helper ? true : false);
                 let id = helper ? res.data.helperid : res.data.studentid;
                 if(helper){
                     dispatch(loginUserHerlper(res.data.token, id))
@@ -130,6 +130,7 @@ export const loginUserSuccess = (user, id) => {
         localStorage.setItem('helper', false);
         dispatch({ type: LOGIN_USER, payload: user})
         dispatch({ type: SET_USER_ID, payload: id})
+        dispatch({type: IS_HELPER, payload: false})
     }
 }
 export const loginUserHerlper = (user, id) => {
@@ -142,18 +143,14 @@ export const loginUserHerlper = (user, id) => {
 }
 
 export const loginUserError = error => {
-    console.log(error)
-    localStorage.setItem('helper', true);
     return dispatch => {
     dispatch({type: LOGIN_USER_ERROR, payload: error})
-    dispatch({type: IS_HELPER, payload: true})
     }
 }
 
 export const fetchUser = (id, helper) => {
 
     let route = helper ? 'helpers/' : 'students/';
-    console.log(route)
 
     const promise = axiosWithAuth().get(API + route + id);
 
@@ -164,8 +161,7 @@ export const fetchUser = (id, helper) => {
             dispatch({type: LOGIN_USER, payload: localStorage.getItem('token')});
             dispatch({type: SIGNUP_USER, payload: res.data.username});
             dispatch({ type: SET_USER_ID, payload: userID});
-            if(res.data.helperid){localStorage.setItem('helper', true); dispatch({type: IS_HELPER, payload: true})}
-           
+            if(res.data.helperid != null){localStorage.setItem('helper', true); dispatch({type: IS_HELPER, payload: true})}
         })
         .catch((err) => {
             dispatch({type: LOGIN_USER_ERROR, payload: err.response.data.message});
@@ -275,7 +271,7 @@ export const addTicket = ticket => {
 };
 
 // Assigning of ticket
-export const assignTicket = ticket=> {
+export const assignTicket = (id, ticket) => {
     const promise = axiosWithAuth().put(API + 'requests/' + ticket.id, ticket);
 
     return dispatch => {
@@ -309,3 +305,14 @@ export const resolveTicket = ticket => {
     })
     };
 };
+
+// Deletion of a ticket
+export const deleteTicket = id => {
+    const promise = axiosWithAuth().delete(API + 'requests/' + id);
+
+    return dispatch => {
+        promise
+            .then((res) => fetchTickets())
+            .catch((err) => console.log(err))
+    }
+}

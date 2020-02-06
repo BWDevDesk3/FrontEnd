@@ -6,7 +6,7 @@ import {withRouter} from 'react-router-dom';
 // Actions
 import {fetchUserTickets} from '../../actions/actions';
 // Ant Design
-import {Layout, List} from 'antd';
+import {Layout, List, PageHeader} from 'antd';
 // Components
 import TicketCard from './TicketCard';
 
@@ -24,7 +24,13 @@ const MyTickets = props => {
 
     return (
         <Content style={{ margin: '0 10px' }}>
-            <h4>My Tickets</h4>
+            <PageHeader
+            style={{
+              border: '1px solid rgb(235, 237, 240)',
+            }}
+            title="My Tickets"
+            subTitle="View all of your tickets here!"
+          />
             <List grid={{gutter: 16, xs: 1, sm: 2, md: 2, lg: 3, xl: 4, xxl: 5}}
                 dataSource={props.tickets}
                 renderItem={(ticket, index) => (
