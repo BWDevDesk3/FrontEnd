@@ -307,12 +307,13 @@ export const resolveTicket = ticket => {
 };
 
 // Deletion of a ticket
-export const deleteTicket = id => {
-    const promise = axiosWithAuth().delete(API + 'requests/' + id);
-
+export const deleteTicket = ticket => {
+    const promise = axiosWithAuth().delete(API + 'requests/' + ticket.id);
+    const userID = localStorage.getItem('id');
     return dispatch => {
         promise
             .then((res) => fetchTickets())
             .catch((err) => console.log(err))
     }
+
 }

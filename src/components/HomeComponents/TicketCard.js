@@ -7,10 +7,12 @@ import { Card, Icon, Modal, Tag, Button, Avatar, message } from 'antd';
 import { categorySwitch } from './CategorySwitch';
 import { statusSwitch } from './StatusSwitch';
 import { axiosWithAuth } from '../../utils/axiosWithAuth';
+import ResponseModal from '../ResponseModal';
 
 const TicketCard = props => {
 
     const [visible, setVisible] = useState();
+    const [resVisible, setResVisible] = useState();
     const helper = (localStorage.getItem('helper') === 'true');
     const [text, setText] = useState('Delete');
 
@@ -42,6 +44,14 @@ const TicketCard = props => {
         console.log(helper)
         setVisible(false);
     }
+
+    const showResModal = e => {
+      setResVisible(true);
+  }
+
+  const hideResModal = e => {
+      setResVisible(false);
+  }
 
     const assignTicket = ticketid => {
         const id = localStorage.getItem("id");
@@ -115,7 +125,9 @@ const TicketCard = props => {
         footer={[
             <>
             <Button key="back" onClick={hideModal}>Close</Button>
-            <Button type="primary" onClick={e => helper ? assignTicket(ticket.id) : props.deleteTicket(ticket.id)}>{helper ? 'Assign' : 'Delete'}</Button>\
+            {helper ? <Button onClick={e => props.deleteTicket(ticket)}>Delete</Button> : <></>}
+            <Button type="primary" onClick={e => helper ? assignTicket(ticket.id) : props.deleteTicket(ticket)}>{helper ? 'Assign' : 'Delete'}</Button>
+            {helper ? <Button type="primary" onClick={e => showResModal(e)}>Send Response!</Button> : <></>}
             </>
           ]}
       >
@@ -123,6 +135,7 @@ const TicketCard = props => {
         <p>Steps Taken: {ticket.request_stepstaken}</p>
         <p>Helper: {ticket.helperId ? ticket.helperId : 'Needed!'}</p>
       </Modal>
+      <ResponseModal visible={resVisible} setVisible={setResVisible} ticket={ticket}/>
       </div>
     )
 }
