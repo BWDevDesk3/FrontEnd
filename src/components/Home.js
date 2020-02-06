@@ -26,9 +26,6 @@ const Home = props => {
             <Layout style={{ minHeight: '100vh' }}>
                 <SideMenu signOut={handleSignOut}/>
                 <Layout>
-                    <Header style={{ background: '#fff', padding: 0 }}> 
-                        <h4>{'Welcome to DevDesk!'}</h4>
-                    </Header>
                     {/* Dynamic rendering of different componenets depending on NavBar */}
                     {Page}
                     <Footer style={{ textAlign: 'center' }}>Dev Desk</Footer>

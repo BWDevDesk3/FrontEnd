@@ -6,7 +6,7 @@ import {withRouter} from 'react-router-dom';
 // Actions
 import {fetchTickets} from '../../actions/actions';
 // Ant Design
-import {Layout, List, Radio, Icon} from 'antd';
+import {Layout, List, Radio, Icon, PageHeader} from 'antd';
 // Components
 import TicketCard from './TicketCard';
 import TicketRow from "./TicketRow";
@@ -32,10 +32,17 @@ const Base = props => {
 
     return (
         <Content >
-          <Radio.Group defaultValue="vertical" buttonStyle="solid" onChange={handleChange}>
+          <PageHeader
+            style={{
+              border: '1px solid rgb(235, 237, 240)',
+            }}
+            title="Home"
+            subTitle="View all tickets here!"
+            extra={[<Radio.Group defaultValue="vertical" buttonStyle="solid" onChange={handleChange}>
             <Radio.Button value="vertical"><Icon type="table" /></Radio.Button>
             <Radio.Button value="horizontal"><Icon type="menu" /></Radio.Button>
-          </Radio.Group>
+            </Radio.Group>]}
+          />
           {layout === 'vertical' ?
             <List grid={{gutter: 10, xs: 1, sm: 2, md: 2, lg: 3, xl: 4, xxl: 5}}
             size="large"

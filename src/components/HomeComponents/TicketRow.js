@@ -88,11 +88,21 @@ const TicketCard = props => {
     return (
         <div>
 
-            <List.Item style={{backgroundColor: 'white', margin: '10px'}} actions={[<Tag color={ticketStatus.color}>{ticketStatus.status}</Tag>,<Tag color={ticketUI.color}>{ticketUI.name}</Tag>,
-                <Icon type="search" onClick={e => showModal(e)}/>]} >
+            <List.Item style={{backgroundColor: 'white', margin: '10px'}}
+            actions={[<Tag color={ticketStatus.color}>{ticketStatus.status}</Tag>,
+            <Tag color={ticketUI.color}>{ticketUI.name}</Tag>,
+            <Icon type="search" onClick={e => showModal(e)}/>]}
+            extra={
+              <img
+                  height={100}
+                  alt={ticketUI.name}
+                  src={ticketUI.image}
+                />
+              }
+            >
             <List.Item.Meta
                 avatar={
-                  <Avatar src={'data:image/png;base64, ' + image} />
+                  <Avatar style={{marginLeft: '20px'}} shape='square' src={'data:image/png;base64, ' + image} />
                 }
                 title={ticket.request_title}
                 description={ticket.request_details}/>
