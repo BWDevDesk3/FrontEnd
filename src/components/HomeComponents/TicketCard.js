@@ -7,70 +7,71 @@ import { Card, Icon, Modal, Tag, Button, Avatar, message } from 'antd';
 import { categorySwitch } from './CategorySwitch';
 import { statusSwitch } from './StatusSwitch';
 import { axiosWithAuth } from '../../utils/axiosWithAuth';
+import ResponseModal from '../ResponseModal';
 
 const TicketCard = props => {
 
     const [visible, setVisible] = useState();
+    const [resVisible, setResVisible] = useState();
     const helper = (localStorage.getItem('helper') === 'true');
-    const [text, setText] = useState('Delete');
 
     const {Meta} = Card;
 
     let ticket = props.ticket;
     let ticketCreator = ticket.creatorId || ticket.creatorid
-    let id = localStorage.getItem('id');
     let date = new Date(ticket.request_date).toLocaleDateString();
-
-    const owner = id == ticketCreator;
 
     // Switch to handle category names, colors, and images
     let ticketUI = categorySwitch(ticket);
     // Switch to handle ticket resolved status
     let ticketStatus = statusSwitch(ticket);
     
-    let buttonText = helper ? 'Assign' : 'Delete';
     const [creator, setCreator] = useState();
+    const [userEmail, setEmail] = useState();
     const [image, setImage] = useState(null);
 
     const showModal = e => {
-        console.log(helper)
         setVisible(true);
     }
 
     const hideModal = e => {
-        console.log(helper)
         setVisible(false);
     }
 
-    const assignTicket = ticketid => {
-        const id = localStorage.getItem("id");
-        const assignedticket = {
-          ...ticket,
-          helperId: id
-        };
-        const promise = axiosWithAuth().put(
-          "https://devdeskdb.herokuapp.com/api/requests/" + ticketid,
-          assignedticket
-        );
-        promise
-          .then(res => {hideModal(); ticket.helperId = id; message.success('Success')})
-          .catch(err => {
-            console.log(err);
-            message.error('Error assigning ticket!')
-          });
-      };
+    const showResModal = e => {
+      setResVisible(true);
+  }
 
     const fetchUser = id => {
         const promise = axiosWithAuth().get('https://devdeskdb.herokuapp.com/api/students/' + id);
 
         promise
             .then((res) => {
-                setCreator(res.data.username);
+              setEmail(res.data.email);
+              setCreator(res.data.username);
             })
             .catch((err) => {
                 console.log(err);
             })
     }
+
+    const assignTicket = ticketid => {
+      const id = localStorage.getItem("id");
+      const assignedticket = {
+        ...ticket,
+        helperId: id
+      };
+      const promise = axiosWithAuth().put(
+        "https://devdeskdb.herokuapp.com/api/requests/" + ticketid,
+        assignedticket
+      );
+      promise
+        .then(res => {hideModal(); ticket.helperId = id; message.success('Success')})
+        .catch(err => {
+          console.log(err);
+          message.error('Error assigning ticket!')
+        });
+    };
 
     const fetchUserImage = id => {
         const promise = axiosWithAuth().get('https://devdeskdb.herokuapp.com/api/students/'+ id + '/image', { responseType: "arraybuffer"})
@@ -114,7 +115,9 @@ const TicketCard = props => {
         footer={[
             <>
             <Button key="back" onClick={hideModal}>Close</Button>
-            <Button type="primary" onClick={e => helper ? assignTicket(ticket.id) : props.deleteTicket(ticket.id)}>{helper ? 'Assign' : 'Delete'}</Button>\
+            {helper ? <Button key="delete" onClick={e => {props.deleteTicket(ticket); hideModal(e)}}>Delete</Button> : <></>}
+            {helper ? <Button key="assign" type="primary" onClick={e => assignTicket(ticket.id)}>Assign</Button> : <></>}
+            {helper ? <Button key="show" type="primary" onClick={e => showResModal(e)}>Send Response!</Button> : <></>}
             </>
           ]}
       >
@@ -122,6 +125,7 @@ const TicketCard = props => {
         <p>Steps Taken: {ticket.request_stepstaken}</p>
         <p>Helper: {ticket.helperId ? ticket.helperId : 'Needed!'}</p>
       </Modal>
+      <ResponseModal visible={resVisible} setVisible={setResVisible} ticket={ticket} email={userEmail}/>
       </div>
     )
 }

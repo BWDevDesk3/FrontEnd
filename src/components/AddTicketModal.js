@@ -22,7 +22,8 @@ const AddTicketModal = props => {
         request_title: title,
         request_details: description,
         request_stepstaken: steps,
-        creatorId: localStorage.getItem('id')
+        creatorId: localStorage.getItem('id'),
+        resolved: 0
     }
 
     const handleTitleChange = e => {
@@ -44,6 +45,10 @@ const AddTicketModal = props => {
       const handleSubmit = () => {
           console.log(ticket);
           props.addTicket(ticket);
+          setValue('');
+          setDescription('');
+          setSteps('');
+          setTitle('');
           props.setVisible(false);
     };
 
@@ -99,16 +104,6 @@ const AddTicketModal = props => {
               })(<Input type="textarea" onChange={handleStepsChange}/>)}
             </Form.Item>
           </Form>
-          {/*
-request_category: 1
-request_date: "01/01/2020"
-request_title: "Request 1"
-request_details: "Forget Houston, I have Problems!"
-request_stepstaken: "As few as possible while still achieving the same goal."
-creatorId: 1
-helperId: ""
-resolved: 0
-__proto__: Object */}
         </Modal>
     )
 }

@@ -6,13 +6,14 @@ const ImageUploader = props => {
 
     const [localImage, setLocalImage] = useState();
     const [image, setImage] = useState(null);
-    const [imageUrl, setImageUrl] = useState();
     const [uploading, setUploading] = useState(false);
+
+    const helper = (localStorage.getItem('helper') === 'true');
 
     const id = localStorage.getItem('id');
 
     const handleImageChange = image => {
-        console.log(image);
+        // console.log(image);
         setLocalImage(image);
     }
 
@@ -25,9 +26,11 @@ const ImageUploader = props => {
 
       const handleUpload = image => {
         const data = new FormData();
+
+        const route = helper ? 'helpers/' : 'students/'
         data.append('file', image);
     
-            axiosWithAuth().post('https://devdeskdb.herokuapp.com/api/students/'+ id +'/image', data, {
+            axiosWithAuth().post('https://devdeskdb.herokuapp.com/api/' + route + id +'/image', data, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -39,7 +42,9 @@ const ImageUploader = props => {
       };
 
       const handleLoadImage = () => {
-            axiosWithAuth().get('https://devdeskdb.herokuapp.com/api/students/'+ id +'/image', { responseType: "arraybuffer"})
+        const route = helper ? 'helpers/' : 'students/'
+
+            axiosWithAuth().get('https://devdeskdb.herokuapp.com/api/'+ route + id +'/image', { responseType: "arraybuffer"})
             .then((res) => {
                 let resImage = new Buffer.from(res.data, 'binary').toString('base64');
                 setImage(resImage);

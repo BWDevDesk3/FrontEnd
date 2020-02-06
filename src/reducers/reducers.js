@@ -20,7 +20,8 @@ import {
     // Assigning Ticker
     ASSIGN_TICKET, ASSIGN_TICKET_ERROR, ASSIGNING_TICKET,
     // Resolving Ticker
-    RESOLVE_TICKET, RESOLVE_TICKET_ERROR, RESOLVING_TICKET, SET_USER_ID
+    RESOLVE_TICKET, RESOLVE_TICKET_ERROR, RESOLVING_TICKET, SET_USER_ID,
+    CLEAR_STATE
 } from '../actions/actions';
 
 const initialState = {
@@ -158,6 +159,10 @@ export const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 fetchingData: !state.fetchingData
+            }
+        case CLEAR_STATE:
+            return {
+                state: {}
             }
         default:
             return state;

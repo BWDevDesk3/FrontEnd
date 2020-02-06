@@ -10,7 +10,7 @@ import { Layout } from 'antd';
 // Components
 import SideMenu from './SideMenu';
 
-const { Header, Footer } = Layout;
+const { Footer } = Layout;
 
 const Home = props => {
 

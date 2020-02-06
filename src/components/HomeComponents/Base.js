@@ -38,9 +38,9 @@ const Base = props => {
             }}
             title="Home"
             subTitle="View all tickets here!"
-            extra={[<Radio.Group defaultValue="vertical" buttonStyle="solid" onChange={handleChange}>
-            <Radio.Button value="vertical"><Icon type="table" /></Radio.Button>
-            <Radio.Button value="horizontal"><Icon type="menu" /></Radio.Button>
+            extra={[<Radio.Group key="group" defaultValue="vertical" buttonStyle="solid" onChange={handleChange}>
+            <Radio.Button key="vertical" value="vertical"><Icon type="table" /></Radio.Button>
+            <Radio.Button key="horizontal" value="horizontal"><Icon type="menu" /></Radio.Button>
             </Radio.Group>]}
           />
           {layout === 'vertical' ?

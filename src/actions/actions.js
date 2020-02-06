@@ -41,6 +41,8 @@ export const FETCHING_TICKETS = "FETCHING_TICKETS";
 export const ADDING_TICKET = "ADDING_TICKET";
 export const ASSIGNING_TICKET = "ASSIGNING_TICKET";
 export const RESOLVING_TICKET = "RESOLVING_TICKET";
+
+export const CLEAR_STATE = "CLEAR_STATE";
  
 // Action Const's
 const API = 'https://devdeskdb.herokuapp.com/api/';
@@ -175,9 +177,8 @@ export const userSignOut = () =>
     localStorage.setItem('token', '');
     localStorage.setItem('id', '');
     localStorage.setItem('helper', false);
-    return {
-        type: LOGIN_USER,
-        payload: ''
+    return dispatch => {
+        dispatch({type: LOGIN_USER, payload: ''})
     };
 };
 
@@ -307,12 +308,12 @@ export const resolveTicket = ticket => {
 };
 
 // Deletion of a ticket
-export const deleteTicket = id => {
-    const promise = axiosWithAuth().delete(API + 'requests/' + id);
-
+export const deleteTicket = ticket => {
+    const promise = axiosWithAuth().delete(API + 'requests/' + ticket.id);
     return dispatch => {
         promise
             .then((res) => fetchTickets())
             .catch((err) => console.log(err))
     }
+
 }
