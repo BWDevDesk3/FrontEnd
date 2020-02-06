@@ -263,6 +263,7 @@ export const addTicket = ticket => {
     .then((res) => {
         dispatch({type: ADD_TICKET, payload: res.data});
         dispatch({type: ADDING_TICKET});
+        fetchTickets();
     })
     .catch((err) => {
         dispatch({type: ADD_TICKET_ERROR, payload: err});
