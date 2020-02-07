@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 // Redux Connect
 import {connect} from 'react-redux';
 // Actions
-import {fetchUserTickets, deleteTicket} from '../../actions/actions';
+import {fetchUserTickets, deleteTicket, refreshTickets} from '../../actions/actions';
 import { Icon, Modal, Tag, Button, Avatar, message, List } from 'antd';
 import { categorySwitch } from './CategorySwitch';
 import { statusSwitch } from './StatusSwitch';
@@ -35,6 +35,7 @@ const TicketCard = props => {
 
     const hideModal = e => {
         console.log(helper)
+        console.log(ticket.id);
         setVisible(false);
     }
 
@@ -49,7 +50,7 @@ const TicketCard = props => {
           assignedticket
         );
         promise
-          .then(res => {hideModal(); ticket.helperId = id; message.success('Success')})
+          .then(res => {hideModal(); props.refreshTickets(); message.success('Success')})
           .catch(err => {
             console.log(err);
             message.error('Error assigning ticket!')
@@ -109,7 +110,7 @@ const TicketCard = props => {
                 description={ticket.request_details}/>
             </List.Item>
         <Modal
-        title={ticket.request_title}
+        title={'Ticket by: ' + creator}
         visible={visible}
         onOk={hideModal}
         onCancel={hideModal}
@@ -139,4 +140,4 @@ const mapStateToProps = state =>
   };
 };
 
-export default connect(mapStateToProps, {fetchUserTickets, deleteTicket})(TicketCard)
+export default connect(mapStateToProps, {fetchUserTickets, deleteTicket, refreshTickets})(TicketCard)

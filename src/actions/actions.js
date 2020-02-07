@@ -263,7 +263,7 @@ export const addTicket = ticket => {
     .then((res) => {
         dispatch({type: ADD_TICKET, payload: res.data});
         dispatch({type: ADDING_TICKET});
-        fetchTickets();
+        dispatch({type: ASSIGNING_TICKET});fetchTickets()
     })
     .catch((err) => {
         dispatch({type: ADD_TICKET_ERROR, payload: err});
@@ -308,12 +308,20 @@ export const resolveTicket = ticket => {
     };
 };
 
+export const refreshTickets = () => {
+    return dispatch => {
+        dispatch({type: ASSIGN_TICKET});
+        console.log('Refreshing')
+        fetchTickets();
+    }
+}
+
 // Deletion of a ticket
 export const deleteTicket = ticket => {
     const promise = axiosWithAuth().delete(API + 'requests/' + ticket.id);
     return dispatch => {
         promise
-            .then((res) => fetchTickets())
+            .then((res) => {dispatch({type: ASSIGN_TICKET});fetchTickets()})
             .catch((err) => console.log(err))
     }
 

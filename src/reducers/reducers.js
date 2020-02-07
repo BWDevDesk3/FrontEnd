@@ -36,7 +36,8 @@ const initialState = {
     assignError: '',
     resolveError: '',
     isHelper: false,
-    fetchingData: false
+    fetchingData: false,
+    testing: 1
 }
 
 export const rootReducer = (state = initialState, action) => {
@@ -120,7 +121,8 @@ export const rootReducer = (state = initialState, action) => {
             }
         case ADD_TICKET: 
             return {
-                ...state
+                ...state,
+                testing: state.testing + 1
             }
         case ADD_TICKET_ERROR:
             return {
@@ -134,7 +136,8 @@ export const rootReducer = (state = initialState, action) => {
             }
         case ASSIGN_TICKET:
             return {
-                ...state
+                ...state,
+                testing: state.testing + 1
             }
         case ASSIGN_TICKET_ERROR:
             return {

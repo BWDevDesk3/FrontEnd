@@ -3,7 +3,7 @@ import { Modal, Form, Input, Select } from 'antd';
 // Redux Connect
 import {connect} from 'react-redux';
 // Actions
-import {addTicket, fetchUserTickets} from '../actions/actions';
+import {addTicket, fetchUserTickets, refreshTickets} from '../actions/actions';
 
 const AddTicketModal = props => {
 
@@ -50,6 +50,7 @@ const AddTicketModal = props => {
           setSteps('');
           setTitle('');
           props.setVisible(false);
+          props.refreshTickets();
     };
 
     return (
@@ -116,4 +117,4 @@ const mapStateToProps = state =>
 
 const AddTicketForm = Form.create({ name: 'normal_login' })(AddTicketModal);
 
-export default connect(mapStateToProps, {addTicket, fetchUserTickets})(AddTicketForm)
+export default connect(mapStateToProps, {addTicket, fetchUserTickets, refreshTickets})(AddTicketForm)
