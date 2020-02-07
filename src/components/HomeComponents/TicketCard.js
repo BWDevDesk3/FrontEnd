@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 // Redux Connect
 import {connect} from 'react-redux';
 // Actions
-import {fetchUserTickets, deleteTicket} from '../../actions/actions';
+import {fetchUserTickets, deleteTicket, fetchTickets, refreshTickets} from '../../actions/actions';
 import { Card, Icon, Modal, Tag, Button, Avatar, message } from 'antd';
 import { categorySwitch } from './CategorySwitch';
 import { statusSwitch } from './StatusSwitch';
@@ -18,7 +18,7 @@ const TicketCard = props => {
     const {Meta} = Card;
 
     let ticket = props.ticket;
-    let ticketCreator = ticket.creatorId || ticket.creatorid
+    let ticketCreator = ticket.creatorId
     let date = new Date(ticket.request_date).toLocaleDateString();
 
     // Switch to handle category names, colors, and images
@@ -35,6 +35,7 @@ const TicketCard = props => {
     }
 
     const hideModal = e => {
+        console.log(ticket);
         setVisible(false);
     }
 
@@ -66,7 +67,7 @@ const TicketCard = props => {
         assignedticket
       );
       promise
-        .then(res => {hideModal(); ticket.helperId = id; message.success('Success')})
+        .then(res => {hideModal(); props.refreshTickets(); message.success('Success'); fetchUser(ticketCreator); fetchUserImage(ticketCreator);})
         .catch(err => {
           console.log(err);
           message.error('Error assigning ticket!')
@@ -84,7 +85,7 @@ const TicketCard = props => {
         .catch((err) => setImage(null))
     }
 
-    useEffect(() =>{fetchUser(ticketCreator); fetchUserImage(ticketCreator);}, [])
+    useEffect(() =>{fetchUser(ticketCreator); fetchUserImage(ticketCreator);}, [creator])
 
     return (
         <div>
@@ -115,9 +116,9 @@ const TicketCard = props => {
         footer={[
             <>
             <Button key="back" onClick={hideModal}>Close</Button>
-            {helper ? <Button key="delete" onClick={e => {props.deleteTicket(ticket); hideModal(e)}}>Delete</Button> : <></>}
-            {helper ? <Button key="assign" type="primary" onClick={e => assignTicket(ticket.id)}>Assign</Button> : <></>}
-            {helper ? <Button key="show" type="primary" onClick={e => showResModal(e)}>Send Response!</Button> : <></>}
+            {helper ? <Button key="delete" onClick={e => {props.deleteTicket(ticket); props.refreshTickets(); hideModal(e)}}>Delete</Button> : <></>}
+            {helper ? <Button key="assign" type="primary" onClick={e => {assignTicket(ticket.id); props.refreshTickets();}}>Assign</Button> : <></>}
+            {helper ? <Button key="show" type="primary" onClick={e => {showResModal(e); props.refreshTickets();}}>Send Response!</Button> : <></>}
             </>
           ]}
       >
@@ -138,4 +139,4 @@ const mapStateToProps = state =>
   };
 };
 
-export default connect(mapStateToProps, {fetchUserTickets, deleteTicket})(TicketCard)
+export default connect(mapStateToProps, {fetchUserTickets, deleteTicket, fetchTickets, refreshTickets})(TicketCard)

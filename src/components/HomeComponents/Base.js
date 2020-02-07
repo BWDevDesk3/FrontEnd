@@ -27,8 +27,8 @@ const Base = props => {
     }
 
     useEffect(() => {
-        fetch();
-    }, [props.tickets])
+      props.fetchTickets();
+    }, [props.testing])
 
     return (
         <Content >
@@ -49,8 +49,9 @@ const Base = props => {
             pagination={{
                 onChange: page => {
                   console.log(page);
+                  props.fetchTickets();
                 },
-                pageSize: 12,
+                pageSize: 50,
                 style: {textAlign: 'center'}
               }}
                 dataSource={props.tickets}
@@ -69,7 +70,7 @@ const Base = props => {
                 onChange: page => {
                   console.log(page);
                 },
-                pageSize: 12,
+                pageSize: 50,
                 style: {textAlign: 'center'}
               }}
                 dataSource={props.tickets}
@@ -87,7 +88,8 @@ const Base = props => {
 const mapStateToProps = state => 
 {
   return {
-    tickets: state.tickets
+    tickets: state.tickets,
+    testing: state.testing
   };
 };
 
